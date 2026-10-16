@@ -1,13 +1,13 @@
 {
-  "name": "Atlas Trials — Diverticulitis",
+  "name": "Atlas de evidencia — Enfermedad diverticular",
   "short_name": "Atlas Div.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f4f3ef",
+  "background_color": "#f6ecdd",
   "theme_color": "#2b5f6b",
-  "description": "Ensayos emblematicos de la enfermedad diverticular - guia ASCRS 2026 - Dr. Felipe Imigo Gueregat",
+  "description": "Ensayos clínicos y guías 2026 (ASCRS · ACG · EAES–SAGES) de la enfermedad diverticular — Dr. Felipe Imigo Gueregat",
   "icons": [
     {
       "src": "icon-192.png",
@@ -22,7 +22,7 @@
       "purpose": "any"
     },
     {
-      "src": "icon-512.png",
+      "src": "icon-512-maskable.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

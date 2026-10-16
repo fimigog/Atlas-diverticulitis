@@ -8,12 +8,13 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Atlas Diverticulitis">
+<meta name="apple-mobile-web-app-title" content="Atlas Diverticular">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 <link rel="manifest" href="manifest.webmanifest">
-<title>Atlas de Trials — Diverticulitis</title>
-<meta name="description" content="Atlas interactivo de los ensayos emblemáticos de la enfermedad diverticular, base de la guía ASCRS 2026.">
+<title>Atlas de evidencia — Enfermedad diverticular 2026</title>
+<meta name="description" content="Atlas interactivo de los ensayos clínicos que fundamentan el manejo de la enfermedad diverticular, con comparador de las guías 2026 (ASCRS · ACG · EAES–SAGES).">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -153,6 +154,17 @@ a{color:inherit}
 .rec-trials{font-size:11.5px;color:var(--ink-mute);line-height:1.5}
 .rec-trials a{color:var(--rc,var(--b3));font-weight:600;cursor:pointer}
 
+/* COMPARADOR DE GUÍAS */
+.cmp-guias{table-layout:fixed}
+.cmp-guias th,.cmp-guias td{vertical-align:top}
+.cmp-guias td{font-size:12px;line-height:1.5;min-width:190px;overflow-wrap:anywhere;word-break:normal}
+.cmp-topic{font-weight:700;color:var(--ink);min-width:160px;font-family:'Fraunces',serif;font-size:13.5px}
+.g-name{font-family:'Fraunces',serif;font-weight:700;font-size:14.5px;color:var(--ink);letter-spacing:-.01em}
+.g-tipo{font-size:10px;color:var(--ink-mute);text-transform:none;letter-spacing:0;font-weight:500;margin-top:3px}
+.g-doi{display:inline-block;margin-top:5px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--b3);text-decoration:none;font-weight:700}
+.g-doi:hover{text-decoration:underline}
+.conv{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.03em;padding:3px 9px;border-radius:100px;color:#fff;white-space:nowrap}
+
 /* BLOCKS */
 .block{margin-bottom:64px;scroll-margin-top:74px}
 .block-header{display:flex;align-items:baseline;gap:18px;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--ink)}
@@ -240,11 +252,13 @@ a{color:inherit}
 .trial-card.b3 .primary-result{color:var(--b3)} .trial-card.b4 .primary-result{color:var(--b4)} .trial-card.b5 .primary-result{color:var(--b5)}
 .pr-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:currentColor;margin-bottom:7px}
 .pr-label{font-family:'Fraunces',serif;font-weight:600;font-size:15.5px;color:var(--ink);margin-bottom:16px}
-.pr-bars{display:grid;grid-template-columns:96px 1fr;gap:8px 12px;align-items:center}
+.pr-bars{display:grid;grid-template-columns:96px 1fr auto;gap:10px 12px;align-items:center}
 .pr-side{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);font-weight:600}
-.pr-track{height:30px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);position:relative;overflow:hidden}
-.pr-fill{height:100%;display:flex;align-items:center;padding:0 10px;font-family:'Fraunces',serif;font-weight:700;font-size:15px;color:#fff;letter-spacing:-.01em;min-width:fit-content;white-space:nowrap;transition:width .8s cubic-bezier(.22,1,.36,1)}
-.pr-fill.exp{background:currentColor} .pr-fill.ctrl{background:var(--ink-mute)}
+.pr-track{height:26px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);position:relative;overflow:hidden}
+.pr-fill{height:100%;min-width:4px;border-radius:var(--radius-sm);transition:width .8s cubic-bezier(.22,1,.36,1)}
+.pr-fill.exp{background:currentColor} .pr-fill.ctrl{background:var(--ink-soft)}
+.pr-val{font-family:'Fraunces',serif;font-weight:700;font-size:15px;letter-spacing:-.01em;white-space:nowrap;min-width:54px;text-align:right}
+.pr-val.exp{color:currentColor} .pr-val.ctrl{color:var(--ink-soft)}
 .pr-diff{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft);padding:9px 12px;margin-top:12px;background:var(--bg-elev);border-radius:var(--radius-sm);border:1px solid var(--line);font-weight:600}
 .pr-narrative{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);font-size:13.5px;color:var(--ink-soft);line-height:1.6}
 .result-row{padding:16px 18px;background:var(--bg-soft);border:1px solid var(--line);border-left:3px solid currentColor;border-radius:var(--radius-md);margin-bottom:12px}
@@ -311,8 +325,6 @@ footer.credits p{margin:6px 0 0;max-width:78ch;line-height:1.55}
   .trial-badges{flex-direction:row;flex-wrap:wrap;align-items:flex-start}
 }
 </style>
-</head>
-<body>
 
 <div class="topbar">
   <div class="brand"><span class="brand-dot"></span><span class="serif">Atlas · Diverticulitis</span></div>
@@ -330,8 +342,9 @@ footer.credits p{margin:6px 0 0;max-width:78ch;line-height:1.55}
 
 <div class="layout">
   <aside class="sidebar">
-    <h4>Guía ASCRS 2026</h4>
-    <a class="nav-link tool" onclick="goTo('#recs')">§ Las 17 recomendaciones</a>
+    <h4>Guías 2026</h4>
+    <a class="nav-link tool" onclick="goTo('#recs')">§ Las 17 recomendaciones (ASCRS)</a>
+    <a class="nav-link tool" onclick="goTo('#guias')">⚖ Comparador de guías</a>
     <h4>Dominios · ensayos</h4>
     <div id="nav-blocks"></div>
     <h4>Herramientas</h4>
@@ -342,8 +355,8 @@ footer.credits p{margin:6px 0 0;max-width:78ch;line-height:1.55}
 
   <main class="main">
     <section class="hero">
-      <div class="hero-eyebrow">Enfermedad diverticular · Evidencia emblemática</div>
-      <h1 class="hero-title">Los ensayos que <em>sostienen</em> la guía ASCRS 2026</h1>
+      <div class="hero-eyebrow">Ensayos clínicos y guías 2026 · ASCRS · ACG · EAES–SAGES</div>
+      <h1 class="hero-title">Atlas de evidencia en <em>enfermedad diverticular</em></h1>
       <div class="hero-author">
         <span class="ha-name">Dr. Felipe Imigo Gueregat</span>
         <span class="ha-role">Subespecialista en Cirugía Colorrectal</span>
@@ -382,6 +395,13 @@ footer.credits p{margin:6px 0 0;max-width:78ch;line-height:1.55}
       </div>
       <p class="block-intro">El marco que ordena todo el atlas: las diecisiete recomendaciones de la guía, cada una con su fuerza y certeza GRADE, lo que implica en la práctica, el cambio respecto de 2020 y los ensayos de este atlas que la sostienen.</p>
       <div class="recs-grid" id="recs-grid"></div>
+    </section>
+
+    <section class="tool-section" id="guias" style="scroll-margin-top:74px">
+      <div class="tool-head">⚖ Comparador de guías 2026</div>
+      <p class="tool-desc">Organizado por dominio clínico, igual que el resto del atlas: dentro de cada dominio, la misma pregunta y qué responde cada sociedad. Base: los documentos reales de ASCRS 2026, ACG 2026 y EAES–SAGES 2026. Convergencia: <b style="color:var(--b3)">Acuerdo</b> · <b style="color:var(--warn)">Matiz</b> · <b style="color:var(--neg)">Discrepancia</b>.</p>
+      <div class="tbl-wrap" id="guias-table"></div>
+      <p class="tool-desc" style="margin-top:14px;font-size:12.5px;max-width:860px">La aparente discrepancia en mesalazina/rifaximina se resuelve por población y objetivo: la EAES–SAGES las sugiere solo en <b>SUDD</b> (síntomas crónicos), no para prevenir recurrencia, que es donde ACG y ASCRS las desaconsejan. La WSES 2020 (urgencia) sigue vigente y puede sumarse como cuarta columna si lo pides.</p>
     </section>
 
     <div id="blocks"></div>
@@ -527,7 +547,7 @@ const DATA = [
    cite:'Jaung R, et al. Antibiotics do not reduce length of hospital stay for uncomplicated diverticulitis in a pragmatic double-blind randomized trial (STAND). Clin Gastroenterol Hepatol. 2021;19:503-510.'},
 
   {id:'dinamo',block:'b1',name:'DINAMO',journal:'Ann Surg 2021',authors:'Mora-López L, Ruiz-Edo N, Estrada-Ferrer O, et al.',year:2021,n:480,tipo:'ECA de no inferioridad',fuerza:'Fuerte',certeza:'Alta',rec:3,related:['avod','stand'],
-   summary:'Ensayo español que llevó la pregunta al ámbito ambulatorio: en diverticulitis leve tratada en la casa, el manejo sin antibióticos fue no inferior en tasa de hospitalización.',
+   summary:'Ensayo español que llevó la pregunta al ámbito ambulatorio: en diverticulitis leve tratada en domicilio, el manejo sin antibióticos fue no inferior en tasa de hospitalización.',
    simple:'En diverticulitis leve tratada de forma ambulatoria (en casa), no dar antibióticos no llevó a más hospitalizaciones que darlos. El manejo sin antibióticos en casa es seguro.',
    take:'El manejo ambulatorio sin antibióticos es no inferior en la diverticulitis leve.',
    question:'¿Es seguro el tratamiento ambulatorio sin antibióticos en la diverticulitis leve?',
@@ -819,9 +839,34 @@ const GLOSSARY = [
   {t:'No inferioridad',d:'Diseño que busca demostrar que una intervención no es peor que otra más allá de un margen preespecificado, no que sea mejor.'},
   {t:'Clavien-Dindo',d:'Clasificación de la gravedad de las complicaciones quirúrgicas; grado ≥III implica reintervención o soporte orgánico.'},
   {t:'RR / OR / HR',d:'Medidas de asociación: riesgo relativo, odds ratio y hazard ratio. Por encima de 1, más riesgo; por debajo, protector; en 1, sin diferencia.'},
-  {t:'NNT',d:'Número necesario a tratar: cuántos pacientes hay que tratar para evitar un evento.'}
+  {t:'NNT',d:'Número necesario a tratar: cuántos pacientes hay que tratar para evitar un evento.'},
+  {t:'SUDD',d:'Enfermedad diverticular sintomática no complicada: síntomas abdominales crónicos (dolor, distensión, cambio del hábito) en alguien con divertículos, sin inflamación aguda ni diverticulitis. Es la población donde la EAES–SAGES sugiere rifaximina o mesalazina.'}
 ];
 
+const GUIDES=[
+  {id:'ascrs',short:'ASCRS 2026',tipo:'Cirugía colorrectal',doi:'10.1097/DCR.0000000000004382'},
+  {id:'acg',short:'ACG 2026',tipo:'Gastroenterología / ambulatoria',doi:'10.14309/ajg.0000000000004047'},
+  {id:'eaes',short:'EAES–SAGES 2026',tipo:'Multisociedad quirúrgico-endoscópica',doi:'10.1007/s00464-026-13296-1'}
+];
+const CMP_DOMS=[
+  {id:'dx',label:'Diagnóstico y seguimiento',color:'--ink'},
+  {id:'b1',label:'Antibióticos · enfermedad no complicada',color:'--b1'},
+  {id:'b5',label:'Prevención farmacológica y estilo de vida',color:'--b5'},
+  {id:'b2',label:'Absceso diverticular',color:'--b2'},
+  {id:'b3',label:'Cirugía de urgencia',color:'--b3'},
+  {id:'b4',label:'Cirugía electiva y calidad de vida',color:'--b4'}
+];
+const CMP_ROWS=[
+  {dom:'dx',topic:'TC / diagnóstico',conv:'Acuerdo',ascrs:'TC de abdomen y pelvis con contraste, imagen inicial de elección (Fuerte · Moderada).',acg:'TC esencial para confirmar, sobre todo al primer episodio y en casos graves.',eaes:'No fue pregunta (diagnóstico ya establecido).'},
+  {dom:'dx',topic:'Colonoscopía tras la no complicada',conv:'Matiz',ascrs:'Según tamizaje de cáncer colorrectal o sospecha radiológica (Fuerte · Moderada).',acg:'Solo si síntomas de alarma o tamizaje atrasado (Condicional · Baja).',eaes:'Sugiere no colonoscopía de rutina tras el primer episodio (Condicional · Muy baja).'},
+  {dom:'dx',topic:'Colonoscopía tras la complicada',conv:'Acuerdo',ascrs:'Indicada (mayor riesgo de cáncer).',acg:'Recomendada (Fuerte · Moderada), 6–8 semanas después de la recuperación.',eaes:'No fue pregunta específica (se centró en el primer episodio no complicado).'},
+  {dom:'b1',topic:'Antibióticos en la no complicada',conv:'Acuerdo',ascrs:'No de rutina en bajo riesgo (Fuerte · Alta). Reservar para alto riesgo e inmunosupresión.',acg:'Sugiere no de rutina en bajo riesgo; antibióticos si alto riesgo, inmunosupresión o fragilidad (Condicional · Moderada).',eaes:'Sugiere no antibióticos de rutina (Condicional · Baja). Aplica a inmunocompetentes estables.'},
+  {dom:'b5',topic:'Prevención: mesalazina / rifaximina',conv:'Discrepancia',ascrs:'No de rutina para prevenir recurrencia; fibra + rifaximina cíclica como excepción sintomática.',acg:'En contra de mesalazina (Fuerte · Moderada) y rifaximina (Condicional) para prevenir recurrencia; también en contra de probióticos.',eaes:'Sugiere rifaximina o mesalazina en SUDD (Condicional · Baja) — población distinta: síntomas crónicos, no prevención de recurrencia.'},
+  {dom:'b5',topic:'Estilo de vida y dieta',conv:'Matiz',ascrs:'Estilo de vida saludable reduce el riesgo (Condicional · Moderada).',acg:'Detallado: dieta alta en fibra (sin evitar nueces/semillas/maíz/palomitas), ejercicio, peso saludable, no fumar, alcohol con moderación, limitar AINEs.',eaes:'No emitió recomendación de dieta (no se hallaron estudios de dieta vs. rutina).'},
+  {dom:'b2',topic:'Electiva tras absceso',conv:'Matiz',ascrs:'Considerar tras manejo no operatorio exitoso, estratificando caso a caso (Condicional · Moderada).',acg:'No lo aborda (enfoque ambulatorio); recuerda que la recurrencia no aumenta la enfermedad complicada.',eaes:'Sugiere resección electiva sobre vigilancia (Condicional · Moderada). No aplica a frágiles ni inmunosuprimidos.'},
+  {dom:'b3',topic:'Reconstrucción en urgencia (Hinchey III–IV)',conv:'Acuerdo',ascrs:'Anastomosis primaria protegida por sobre Hartmann bajo condiciones óptimas (Condicional · Moderada).',acg:'No lo aborda (enfoque ambulatorio).',eaes:'Sin shock séptico y con experiencia colorrectal: anastomosis primaria (±ileostomía) sobre Hartmann o lavado. Con shock séptico, sin experiencia, frágil o inmunosuprimido: Hartmann (Condicional).'},
+  {dom:'b4',topic:'Electiva tras recurrente no complicada',conv:'Acuerdo',ascrs:'Individualizar por calidad de vida, no por número de episodios (Condicional · Moderada).',acg:'Referir a cirugía si la recurrencia afecta la calidad de vida; no para prevenir la urgencia ni por edad joven (Condicional · Baja).',eaes:'Sugiere resección electiva sobre observación si hay síntomas persistentes (Condicional · Baja).'}
+];
 const COLOR={b1:'--b1',b2:'--b2',b3:'--b3',b4:'--b4',b5:'--b5'};
 const CERT_BARS={'Alta':4,'Moderada':3,'Baja':2,'Muy baja':1};
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
@@ -882,11 +927,11 @@ function consortHTML(c,exp,ctrl){
   nodes+=`<div class="consort-node"><div class="cn-num" style="font-size:15px;padding-top:4px">${esc(c.followup)}</div><div class="cn-lbl">Seguimiento</div></div>`;
   return `<div class="consort">${nodes}</div>`;
 }
-function pctWidth(v){const m=String(v).match(/-?\d+\.?\d*/);let x=m?Math.abs(parseFloat(m[0])):0;if(x<=1)x*=100;return Math.max(8,Math.min(100,x))}
+function pctWidth(v){const s=String(v==null?'':v).replace(',','.');const m=s.match(/-?\d+\.?\d*/);let x=m?Math.abs(parseFloat(m[0])):0;if(!/%/.test(s)&&x<=1)x*=100;return Math.max(5,Math.min(100,x))}
 function resultsBars(pr){
   return `<div class="pr-bars">
-    <div class="pr-side">Intervención</div><div class="pr-track"><div class="pr-fill exp" style="width:${pctWidth(pr.exp)}%">${esc(pr.exp)}</div></div>
-    <div class="pr-side">Control</div><div class="pr-track"><div class="pr-fill ctrl" style="width:${pctWidth(pr.ctrl)}%">${esc(pr.ctrl)}</div></div>
+    <div class="pr-side">Intervención</div><div class="pr-track"><div class="pr-fill exp" style="width:${pctWidth(pr.exp)}%"></div></div><div class="pr-val exp">${esc(pr.exp||'—')}</div>
+    <div class="pr-side">Control</div><div class="pr-track"><div class="pr-fill ctrl" style="width:${pctWidth(pr.ctrl)}%"></div></div><div class="pr-val ctrl">${esc(pr.ctrl||'—')}</div>
   </div>`;
 }
 function renderCard(d){
@@ -1053,6 +1098,23 @@ function buildRecs(){
   document.getElementById('recs-grid').innerHTML=h;
 }
 
+/* ---------- Comparador de guías ---------- */
+function convChip(c){
+  const m={'Acuerdo':'var(--b3)','Matiz':'var(--warn)','Discrepancia':'var(--neg)'};
+  return `<span class="conv" style="background:${m[c]||'var(--ink-mute)'}">${esc(c)}</span>`;
+}
+function buildGuias(){
+  const head='<tr><th>Pregunta clínica</th><th>Convergencia</th>'+GUIDES.map(g=>`<th><div class="g-name">${esc(g.short)}</div><div class="g-tipo">${esc(g.tipo)}</div><a class="g-doi" href="https://doi.org/${esc(g.doi)}" target="_blank" rel="noopener">DOI ↗</a></th>`).join('')+'</tr>';
+  let body='';
+  CMP_DOMS.forEach(dm=>{
+    const rows=CMP_ROWS.filter(r=>r.dom===dm.id);
+    if(!rows.length)return;
+    body+=`<tr class="cmp-dom"><td colspan="5" style="padding:11px 12px;font-weight:700;color:var(${dm.color});border-left:4px solid var(${dm.color});font-size:12px;letter-spacing:.05em;text-transform:uppercase">${esc(dm.label)}</td></tr>`;
+    body+=rows.map(r=>`<tr><td class="cmp-topic">${esc(r.topic)}</td><td>${convChip(r.conv)}</td><td>${esc(r.ascrs)}</td><td>${esc(r.acg)}</td><td>${esc(r.eaes)}</td></tr>`).join('');
+  });
+  document.getElementById('guias-table').innerHTML='<table class="data-table cmp-guias"><thead>'+head+'</thead><tbody>'+body+'</tbody></table>';
+}
+
 /* ---------- Glosario ---------- */
 function buildGlossary(){
   document.getElementById('glossary').innerHTML=GLOSSARY.map(g=>`<div class="gloss-item"><div class="gloss-term serif">${esc(g.t)}</div><div class="gloss-def">${esc(g.d)}</div></div>`).join('');
@@ -1095,19 +1157,14 @@ document.getElementById('themeBtn').addEventListener('click',()=>{
 });
 
 function buildMobnav(){
-  let h=`<a onclick="goTo('#recs')">§ 17 recomendaciones</a>`;
+  let h=`<a onclick="goTo('#recs')">§ 17 recomendaciones</a><a onclick="goTo('#guias')">⚖ Comparador de guías</a>`;
   BLOCKS.forEach(b=>{h+=`<a onclick="goTo('#${b.id}')">${esc(b.key)}</a>`;});
   h+=`<a onclick="goTo('#comparador')">⇌ Comparador</a><a onclick="goTo('#glosario')">📖 Glosario</a><a onclick="startPresentation()">▶ Presentación</a>`;
   document.getElementById('mobnav').innerHTML=h;
 }
-buildKpis();buildNav();buildMobnav();buildTimeline();buildRecs();buildBlocks();buildComparador();buildGlossary();
+buildKpis();buildNav();buildMobnav();buildTimeline();buildRecs();buildGuias();buildBlocks();buildComparador();buildGlossary();
 </script>
 
-<script>
-if ('serviceWorker' in navigator && location.protocol.indexOf('http')===0) {
-  window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
-}
-</script>
-
+<script>if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}</script>
 </body>
 </html>
