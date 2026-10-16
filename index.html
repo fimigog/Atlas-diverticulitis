@@ -1,0 +1,1113 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2b5f6b" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12141a" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Atlas Diverticulitis">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Atlas de Trials — Diverticulitis</title>
+<meta name="description" content="Atlas interactivo de los ensayos emblemáticos de la enfermedad diverticular, base de la guía ASCRS 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f3ef; --bg-elev:#ffffff; --bg-soft:#eceae3;
+  --ink:#20242c; --ink-soft:#464d59; --ink-mute:#767c86;
+  --line:#e3e1d8; --line-strong:#ccc9bd;
+  --b1:#2b5f6b; --b1-soft:#d6e4e6;   /* Antibióticos · petróleo */
+  --b2:#a56a3c; --b2-soft:#ecdcc9;   /* Absceso · ocre bruñido */
+  --b3:#2f6249; --b3-soft:#d7e6de;   /* Urgencia · verde pino */
+  --b4:#6f3a5b; --b4-soft:#ecd9e4;   /* Electiva · ciruela */
+  --b5:#3f4a7a; --b5-soft:#dcdef0;   /* Prevención · índigo pizarra */
+  --pos:#2f6249; --neg:#9d3b2a; --warn:#a56a3c;
+  --shadow-sm:0 1px 2px rgba(26,31,46,.04),0 1px 3px rgba(26,31,46,.06);
+  --shadow-md:0 4px 12px rgba(26,31,46,.06),0 2px 4px rgba(26,31,46,.04);
+  --shadow-lg:0 12px 32px rgba(26,31,46,.10),0 4px 8px rgba(26,31,46,.05);
+  --radius-sm:4px; --radius-md:8px; --radius-lg:14px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12141a; --bg-elev:#191c24; --bg-soft:#1f232d;
+  --ink:#e9e7df; --ink-soft:#c3c1b6; --ink-mute:#8b9099;
+  --line:#282c37; --line-strong:#3a3f4c;
+  --b1:#5fb0bb; --b1-soft:#13323a; --b2:#d59a5f; --b2-soft:#3a2c1a;
+  --b3:#5cb98d; --b3-soft:#13332a; --b4:#c481a6; --b4-soft:#331f2c;
+  --b5:#8791d6; --b5-soft:#20233f;
+  --pos:#5cb98d; --neg:#e08268; --warn:#d59a5f;
+}}
+:root[data-theme="dark"]{
+  --bg:#12141a; --bg-elev:#191c24; --bg-soft:#1f232d;
+  --ink:#e9e7df; --ink-soft:#c3c1b6; --ink-mute:#8b9099;
+  --line:#282c37; --line-strong:#3a3f4c;
+  --b1:#5fb0bb; --b1-soft:#13323a; --b2:#d59a5f; --b2-soft:#3a2c1a;
+  --b3:#5cb98d; --b3-soft:#13332a; --b4:#c481a6; --b4-soft:#331f2c;
+  --b5:#8791d6; --b5-soft:#20233f;
+  --pos:#5cb98d; --neg:#e08268; --warn:#d59a5f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;font-size:15px}
+.serif{font-family:'Fraunces',Georgia,serif}
+.mono{font-family:'JetBrains Mono',monospace}
+a{color:inherit}
+
+/* TOP BAR */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:100;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:12px 20px;display:flex;align-items:center;gap:14px}
+.brand{font-family:'Fraunces',serif;font-weight:700;font-size:17px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;flex-shrink:0}
+.brand-dot{width:10px;height:10px;border-radius:2px;background:linear-gradient(135deg,var(--b1),var(--b3),var(--b2),var(--b4))}
+.search-wrap{flex:1;max-width:420px;position:relative}
+.search-input{width:100%;padding:9px 14px 9px 36px;border:1px solid var(--line);background:var(--bg-elev);border-radius:var(--radius-md);color:var(--ink);font-family:inherit;font-size:14px}
+.search-input:focus{outline:none;border-color:var(--b3);box-shadow:0 0 0 3px color-mix(in srgb,var(--b3) 18%,transparent)}
+.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--ink-mute);pointer-events:none}
+.topbar-actions{display:flex;gap:6px;margin-left:auto}
+.icon-btn{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius-md);height:36px;min-width:36px;padding:0 10px;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;color:var(--ink-soft);font-family:inherit;font-size:12.5px;font-weight:500}
+.icon-btn:hover{border-color:var(--b3);color:var(--b3)}
+
+/* MOBILE NAV */
+.mobnav{display:none}
+@media (max-width:900px){
+  .mobnav{display:flex;gap:8px;overflow-x:auto;padding:10px 16px;background:var(--bg-soft);border-bottom:1px solid var(--line);-webkit-overflow-scrolling:touch}
+  .mobnav::-webkit-scrollbar{display:none}
+  .mobnav a{white-space:nowrap;font-size:12.5px;font-weight:600;color:var(--ink-soft);background:var(--bg-elev);border:1px solid var(--line);border-radius:100px;padding:6px 13px;cursor:pointer;flex:0 0 auto}
+  .mobnav a:active{background:var(--b3-soft);color:var(--b3)}
+}
+
+/* LAYOUT */
+.layout{display:grid;grid-template-columns:236px 1fr;max-width:1400px;margin:0 auto}
+.sidebar{position:sticky;top:61px;align-self:start;height:calc(100vh - 61px);overflow-y:auto;padding:26px 20px 60px;border-right:1px solid var(--line)}
+.sidebar h4{font-family:'Fraunces',serif;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute);margin:22px 0 8px}
+.sidebar h4:first-child{margin-top:0}
+.nav-link{display:block;padding:6px 10px;margin:2px 0;font-size:13px;color:var(--ink-soft);text-decoration:none;border-radius:var(--radius-sm);border-left:2px solid transparent;cursor:pointer}
+.nav-link:hover{background:var(--bg-soft);color:var(--ink)}
+.nav-link.b1{border-left-color:var(--b1)} .nav-link.b2{border-left-color:var(--b2)}
+.nav-link.b3{border-left-color:var(--b3)} .nav-link.b4{border-left-color:var(--b4)}
+.nav-link.b5{border-left-color:var(--b5)} .nav-link.tool{border-left-color:var(--ink-mute);font-weight:500}
+.main{padding:34px 46px 90px;min-width:0}
+
+/* HERO */
+.hero{margin-bottom:44px;padding:14px 0 24px;border-bottom:1px solid var(--line)}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:12px}
+.hero-title{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(32px,5vw,52px);line-height:1.03;letter-spacing:-.03em;margin-bottom:16px;text-wrap:balance;font-variation-settings:"opsz" 144}
+.hero-title em{font-style:italic;font-weight:400;color:var(--b3)}
+.hero-sub{font-size:16.5px;color:var(--ink-soft);max-width:640px;margin-bottom:30px;line-height:1.6}
+.hero-author{display:flex;flex-direction:column;gap:2px;margin:0 0 26px;padding-left:15px;border-left:3px solid var(--b3)}
+.ha-name{font-family:'Fraunces',serif;font-weight:700;font-size:18px;letter-spacing:-.01em;color:var(--ink)}
+.ha-role{font-size:13px;color:var(--ink-mute);letter-spacing:.02em}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius-md);overflow:hidden}
+.kpi{padding:16px 18px;background:var(--bg-elev)}
+.kpi-num{font-family:'Fraunces',serif;font-weight:700;font-size:30px;letter-spacing:-.02em;line-height:1;margin-bottom:5px}
+.kpi-label{font-size:11px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.07em}
+
+/* ONBOARDING */
+.onboarding{margin:26px 0 42px;border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--bg-elev);overflow:hidden}
+.onb-header{padding:16px 22px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;background:linear-gradient(90deg,transparent,var(--bg-soft))}
+.onb-title{font-family:'Fraunces',serif;font-weight:600;font-size:15.5px;display:flex;align-items:center;gap:10px}
+.onb-title::before{content:'?';display:inline-flex;align-items:center;justify-content:center;width:23px;height:23px;background:var(--b3);color:#fff;border-radius:50%;font-family:'Fraunces',serif;font-weight:700;font-size:13px;font-style:italic}
+.onb-chevron{color:var(--ink-mute);transition:transform .3s}
+.onboarding.expanded .onb-chevron{transform:rotate(180deg)}
+.onb-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.onboarding.expanded .onb-body{max-height:1400px}
+.onb-content{padding:6px 22px 24px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.onb-step{padding:14px 16px;background:var(--bg);border-radius:var(--radius-md);border:1px solid var(--line)}
+.onb-step-num{font-family:'Fraunces',serif;font-weight:900;font-size:26px;color:transparent;-webkit-text-stroke:1.4px var(--b3);line-height:1;margin-bottom:6px}
+.onb-step-title{font-family:'Fraunces',serif;font-weight:600;font-size:14.5px;margin-bottom:5px}
+.onb-step-text{font-size:12.5px;color:var(--ink-soft);line-height:1.5}
+.color-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.color-chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft)}
+.color-chip-dot{width:12px;height:12px;border-radius:3px}
+
+/* TIMELINE */
+.timeline-wrap{margin:42px 0 56px;padding:28px 26px;background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius-lg);overflow-x:auto}
+.timeline-title{font-family:'Fraunces',serif;font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--ink-mute);margin-bottom:26px}
+.timeline{display:flex;align-items:flex-start;gap:18px;min-width:1000px;position:relative;padding-top:6px}
+.timeline::before{content:'';position:absolute;top:13px;left:14px;right:14px;height:2px;background:var(--line-strong);border-radius:2px;z-index:0}
+.tl-col{display:flex;flex-direction:column;align-items:center;flex:1 1 96px;min-width:96px;position:relative;z-index:1}
+.tl-dot{width:14px;height:14px;border-radius:50%;background:var(--ink-mute);border:3px solid var(--bg-elev);box-shadow:0 0 0 1.5px var(--line-strong);margin-bottom:8px}
+.tl-year{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-mute);font-weight:600;margin-bottom:9px}
+.tl-items{display:flex;flex-direction:column;gap:4px;align-items:center;width:100%}
+.tl-item{font-size:10.5px;font-weight:600;white-space:nowrap;cursor:pointer;padding:3px 8px;border-radius:100px;background:var(--bg-soft);border:1px solid var(--line);transition:transform .15s}
+.tl-item:hover{transform:translateY(-1px)}
+.tl-item.b1{color:var(--b1)} .tl-item.b2{color:var(--b2)} .tl-item.b3{color:var(--b3)}
+.tl-item.b4{color:var(--b4)} .tl-item.b5{color:var(--b5)}
+
+/* RECOMENDACIONES */
+.recs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.rec-card{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px 22px;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px}
+.rec-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--rc,var(--ink-mute))}
+.rec-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.rec-num{font-family:'Fraunces',serif;font-weight:900;font-size:40px;line-height:.8;letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1.4px var(--rc,var(--ink-mute))}
+.rec-grade{display:flex;flex-direction:column;gap:5px;align-items:flex-end}
+.rec-dice{font-family:'Fraunces',serif;font-weight:600;font-size:16px;line-height:1.3;color:var(--ink)}
+.rec-implica{font-size:13px;color:var(--ink-soft);line-height:1.55}
+.rec-implica b{color:var(--ink);font-weight:600}
+.rec-foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.rec-mov{font-size:11.5px;color:var(--ink-mute);display:flex;align-items:center;gap:7px}
+.rec-mov .tag{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:100px;background:var(--bg-soft);border:1px solid var(--line);color:var(--ink-soft);white-space:nowrap}
+.rec-trials{font-size:11.5px;color:var(--ink-mute);line-height:1.5}
+.rec-trials a{color:var(--rc,var(--b3));font-weight:600;cursor:pointer}
+
+/* BLOCKS */
+.block{margin-bottom:64px;scroll-margin-top:74px}
+.block-header{display:flex;align-items:baseline;gap:18px;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--ink)}
+.block-num{font-family:'Fraunces',serif;font-weight:900;font-size:58px;line-height:.85;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.4px currentColor}
+.block.b1 .block-num,.block.b1 .block-header{color:var(--b1);border-bottom-color:var(--b1)}
+.block.b2 .block-num,.block.b2 .block-header{color:var(--b2);border-bottom-color:var(--b2)}
+.block.b3 .block-num,.block.b3 .block-header{color:var(--b3);border-bottom-color:var(--b3)}
+.block.b4 .block-num,.block.b4 .block-header{color:var(--b4);border-bottom-color:var(--b4)}
+.block.b5 .block-num,.block.b5 .block-header{color:var(--b5);border-bottom-color:var(--b5)}
+.block-title-wrap{flex:1;color:var(--ink)}
+.block-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:4px}
+.block-title{font-family:'Fraunces',serif;font-weight:700;font-size:28px;letter-spacing:-.02em;line-height:1.1}
+.block-intro{font-size:15px;color:var(--ink-soft);max-width:700px;margin-bottom:28px;line-height:1.65;font-style:italic;font-family:'Fraunces',serif}
+
+/* TRIAL CARDS */
+.trial-grid{display:grid;gap:22px}
+.trial-card{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;scroll-margin-top:74px;position:relative;transition:box-shadow .3s}
+.trial-card:hover{box-shadow:var(--shadow-md)}
+.trial-card.hidden{display:none}
+.trial-accent{position:absolute;top:0;left:0;bottom:0;width:4px}
+.trial-card.b1 .trial-accent{background:var(--b1)} .trial-card.b2 .trial-accent{background:var(--b2)}
+.trial-card.b3 .trial-accent{background:var(--b3)} .trial-card.b4 .trial-accent{background:var(--b4)} .trial-card.b5 .trial-accent{background:var(--b5)}
+.trial-header{padding:22px 30px 18px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start}
+.trial-meta-top{display:flex;align-items:center;gap:9px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-mute);letter-spacing:.04em;margin-bottom:6px;flex-wrap:wrap}
+.trial-name{font-family:'Fraunces',serif;font-weight:700;font-size:26px;letter-spacing:-.02em;line-height:1.1;color:var(--ink);margin-bottom:3px}
+.trial-authors{font-size:13px;color:var(--ink-soft);font-style:italic;font-family:'Fraunces',serif}
+.trial-badges{display:flex;flex-direction:column;gap:5px;align-items:flex-end}
+.badge{display:inline-flex;align-items:center;gap:4px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.04em;padding:3px 8px;border-radius:100px;border:1px solid var(--line);background:var(--bg);white-space:nowrap;font-weight:600}
+.badge.fuerte{background:var(--b3-soft);border-color:var(--b3);color:var(--b3)}
+.badge.cond{background:transparent;border-style:dashed;color:var(--ink-mute)}
+.badge.cert{color:#fff;border:none}
+.badge.free{background:var(--b3-soft);color:var(--b3);border-color:var(--b3)}
+.evidence-bars{display:inline-flex;gap:2px;margin-left:2px;align-items:center}
+.evidence-bar{width:4px;height:11px;border-radius:1px;background:var(--line-strong)}
+.evidence-bar.filled{background:currentColor}
+
+/* TABS */
+.trial-tabs{display:flex;padding:0 30px;border-bottom:1px solid var(--line);background:var(--bg-soft);overflow-x:auto}
+.tab-btn{background:none;border:none;padding:13px 16px;font-family:inherit;font-size:13px;font-weight:500;color:var(--ink-mute);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+.tab-btn:hover{color:var(--ink)}
+.tab-btn.active{color:var(--ink);border-bottom-color:currentColor}
+.trial-card.b1 .tab-btn.active{color:var(--b1)} .trial-card.b2 .tab-btn.active{color:var(--b2)}
+.trial-card.b3 .tab-btn.active{color:var(--b3)} .trial-card.b4 .tab-btn.active{color:var(--b4)} .trial-card.b5 .tab-btn.active{color:var(--b5)}
+.tab-panel{display:none;padding:24px 30px 26px}
+.tab-panel.active{display:block}
+
+/* SUMMARY TAB */
+.summary-card{padding:20px 22px;background:linear-gradient(135deg,var(--bg-soft),transparent);border:1px solid var(--line);border-left:4px solid currentColor;border-radius:var(--radius-md);margin-bottom:18px}
+.trial-card.b1 .summary-card{color:var(--b1)} .trial-card.b2 .summary-card{color:var(--b2)}
+.trial-card.b3 .summary-card{color:var(--b3)} .trial-card.b4 .summary-card{color:var(--b4)} .trial-card.b5 .summary-card{color:var(--b5)}
+.summary-card-content{color:var(--ink);font-size:14.5px;line-height:1.6}
+.summary-takeaway{margin-top:14px;padding:13px 15px;background:var(--bg-elev);border:1px dashed currentColor;border-radius:var(--radius-sm);font-family:'Fraunces',serif;font-weight:600;font-size:15.5px;color:currentColor;line-height:1.4}
+.summary-takeaway::before{content:'→ ';opacity:.6}
+.easy-card{padding:20px 24px;background:linear-gradient(135deg,color-mix(in srgb,var(--b2-soft) 55%,var(--bg-soft)),var(--bg-soft));border:1px solid var(--line);border-radius:var(--radius-md);position:relative;margin-top:16px}
+.easy-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:8px}
+.easy-content{font-family:'Fraunces',serif;font-size:16.5px;line-height:1.6;color:var(--ink);font-weight:400}
+
+/* DESIGN TAB */
+.iv-banner{display:grid;grid-template-columns:1fr 1fr;margin:4px 0 20px;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--line)}
+.iv-side{padding:18px 20px}
+.trial-card.b1 .iv-side.exp{background:linear-gradient(135deg,var(--b1-soft),var(--bg-elev))}
+.trial-card.b2 .iv-side.exp{background:linear-gradient(135deg,var(--b2-soft),var(--bg-elev))}
+.trial-card.b3 .iv-side.exp{background:linear-gradient(135deg,var(--b3-soft),var(--bg-elev))}
+.trial-card.b4 .iv-side.exp{background:linear-gradient(135deg,var(--b4-soft),var(--bg-elev))}
+.trial-card.b5 .iv-side.exp{background:linear-gradient(135deg,var(--b5-soft),var(--bg-elev))}
+.iv-side.ctrl{background:var(--bg-soft);border-left:1px solid var(--line)}
+.iv-tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:100px;margin-bottom:10px;font-weight:700}
+.trial-card.b1 .iv-side.exp .iv-tag{background:var(--b1);color:#fff} .trial-card.b2 .iv-side.exp .iv-tag{background:var(--b2);color:#fff}
+.trial-card.b3 .iv-side.exp .iv-tag{background:var(--b3);color:#fff} .trial-card.b4 .iv-side.exp .iv-tag{background:var(--b4);color:#fff} .trial-card.b5 .iv-side.exp .iv-tag{background:var(--b5);color:#fff}
+.iv-side.ctrl .iv-tag{background:var(--ink-mute);color:var(--bg)}
+.iv-title{font-family:'Fraunces',serif;font-weight:700;font-size:15px;margin-bottom:6px;color:var(--ink)}
+.iv-text{font-size:13px;line-height:1.5;color:var(--ink-soft)}
+.kv-list{display:grid;gap:10px;margin-top:4px}
+.kv-item{display:grid;grid-template-columns:130px 1fr;gap:12px;font-size:13.5px}
+.kv-item .k{font-family:'JetBrains Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-mute);font-weight:600;padding-top:2px}
+.kv-item .v{color:var(--ink)}
+.consort{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.consort-node{flex:1;min-width:120px;padding:12px 14px;background:var(--bg-soft);border:1px solid var(--line);border-radius:var(--radius-sm);text-align:center}
+.consort-node .cn-num{font-family:'Fraunces',serif;font-weight:700;font-size:22px;color:var(--ink)}
+.consort-node .cn-lbl{font-size:10.5px;color:var(--ink-mute);text-transform:uppercase;letter-spacing:.05em;margin-top:3px}
+
+/* RESULTS TAB */
+.primary-result{padding:22px 26px;background:linear-gradient(135deg,var(--bg-soft),var(--bg-elev));border:2px solid currentColor;border-radius:var(--radius-md);margin-bottom:20px}
+.trial-card.b1 .primary-result{color:var(--b1)} .trial-card.b2 .primary-result{color:var(--b2)}
+.trial-card.b3 .primary-result{color:var(--b3)} .trial-card.b4 .primary-result{color:var(--b4)} .trial-card.b5 .primary-result{color:var(--b5)}
+.pr-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:currentColor;margin-bottom:7px}
+.pr-label{font-family:'Fraunces',serif;font-weight:600;font-size:15.5px;color:var(--ink);margin-bottom:16px}
+.pr-bars{display:grid;grid-template-columns:96px 1fr;gap:8px 12px;align-items:center}
+.pr-side{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);font-weight:600}
+.pr-track{height:30px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-sm);position:relative;overflow:hidden}
+.pr-fill{height:100%;display:flex;align-items:center;padding:0 10px;font-family:'Fraunces',serif;font-weight:700;font-size:15px;color:#fff;letter-spacing:-.01em;min-width:fit-content;white-space:nowrap;transition:width .8s cubic-bezier(.22,1,.36,1)}
+.pr-fill.exp{background:currentColor} .pr-fill.ctrl{background:var(--ink-mute)}
+.pr-diff{text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-soft);padding:9px 12px;margin-top:12px;background:var(--bg-elev);border-radius:var(--radius-sm);border:1px solid var(--line);font-weight:600}
+.pr-narrative{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);font-size:13.5px;color:var(--ink-soft);line-height:1.6}
+.result-row{padding:16px 18px;background:var(--bg-soft);border:1px solid var(--line);border-left:3px solid currentColor;border-radius:var(--radius-md);margin-bottom:12px}
+.trial-card.b1 .result-row{color:var(--b1)} .trial-card.b2 .result-row{color:var(--b2)}
+.trial-card.b3 .result-row{color:var(--b3)} .trial-card.b4 .result-row{color:var(--b4)} .trial-card.b5 .result-row{color:var(--b5)}
+.result-row-label{font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--ink);margin-bottom:6px}
+.result-row-vals{display:flex;gap:16px;align-items:baseline;flex-wrap:wrap;font-size:13px}
+.result-row-vals .rv{font-family:'JetBrains Mono',monospace;font-weight:600}
+.result-row-vals .rv.exp{color:currentColor} .result-row-vals .rv.ctrl{color:var(--ink-soft)}
+.result-row-vals .rv-diff{color:var(--ink-mute);font-size:12px}
+.result-row-note{font-size:12.5px;color:var(--ink-soft);margin-top:7px;line-height:1.5}
+.sub-h{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-mute);font-weight:700;margin:18px 0 12px}
+.caveats{margin-top:6px;padding:16px 18px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-md)}
+.caveats li{font-size:13px;color:var(--ink-soft);line-height:1.55;margin-left:18px;margin-bottom:6px}
+.refs{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-mute)}
+.refs a{color:var(--b3);text-decoration:none;font-weight:600}
+.refs a:hover{text-decoration:underline}
+.access-line{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;margin-top:8px}
+.access-line .dot{width:8px;height:8px;border-radius:50%}
+
+/* TOOLS */
+.tool-section{margin-bottom:64px;scroll-margin-top:74px}
+.tool-head{font-family:'Fraunces',serif;font-weight:700;font-size:24px;letter-spacing:-.02em;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.tool-desc{font-size:14px;color:var(--ink-soft);margin-bottom:20px;max-width:680px}
+table.data-table{width:100%;border-collapse:collapse;font-size:13px;background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius-md);overflow:hidden}
+table.data-table th{background:var(--bg-soft);text-align:left;padding:11px 12px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-mute);border-bottom:1px solid var(--line);font-weight:700}
+table.data-table td{padding:11px 12px;border-bottom:1px solid var(--line);color:var(--ink);vertical-align:top}
+table.data-table tr:last-child td{border-bottom:none}
+.tbl-wrap{overflow-x:auto}
+.chip{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;padding:2px 7px;border-radius:100px;white-space:nowrap}
+.chip.f{background:var(--b3-soft);color:var(--b3)} .chip.c{background:transparent;border:1px dashed var(--line-strong);color:var(--ink-mute)}
+.cmp-picker{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.cmp-pill{border:1px solid var(--line-strong);background:var(--bg-elev);color:var(--ink-soft);padding:5px 11px;border-radius:100px;font-size:12px;cursor:pointer;font-family:inherit}
+.cmp-pill[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.glossary{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.gloss-item{padding:16px 18px;background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius-md)}
+.gloss-term{font-family:'Fraunces',serif;font-weight:700;font-size:15px;margin-bottom:5px;color:var(--ink)}
+.gloss-def{font-size:13px;color:var(--ink-soft);line-height:1.5}
+
+/* PRESENTATION */
+.present-overlay{position:fixed;inset:0;z-index:1000;background:var(--bg);display:none;flex-direction:column;padding:env(safe-area-inset-top,0px) 0 0}
+.present-overlay.on{display:flex}
+.present-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;border-bottom:1px solid var(--line)}
+.present-stage{flex:1;overflow-y:auto;padding:5vh 8vw;display:flex;flex-direction:column;justify-content:center}
+.present-eyebrow{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:14px}
+.present-title{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(30px,5vw,52px);letter-spacing:-.02em;line-height:1.05;margin-bottom:20px}
+.present-q{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(17px,2.4vw,24px);color:var(--ink-soft);margin-bottom:28px;max-width:22em;line-height:1.4}
+.present-take{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(18px,2.6vw,26px);color:var(--b3);border-left:4px solid var(--b3);padding-left:18px;line-height:1.35;max-width:24em}
+.present-foot{padding:14px 28px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--ink-mute)}
+.pf-btns{display:flex;gap:8px}
+
+footer.credits{border-top:1px solid var(--line);background:var(--bg-soft);padding:26px 0 34px;color:var(--ink-mute);font-size:13px}
+footer.credits .authors{color:var(--ink);font-weight:700;font-family:'Fraunces',serif;font-size:15px}
+footer.credits p{margin:6px 0 0;max-width:78ch;line-height:1.55}
+
+@media (max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .main{padding:26px 20px 80px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .onb-content{grid-template-columns:1fr}
+  .iv-banner{grid-template-columns:1fr}
+  .trial-header{grid-template-columns:1fr}
+  .trial-badges{flex-direction:row;flex-wrap:wrap;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="brand-dot"></span><span class="serif">Atlas · Diverticulitis</span></div>
+  <div class="search-wrap">
+    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input class="search-input" id="q" type="search" placeholder="Buscar ensayo, comparación, resultado…" autocomplete="off" aria-label="Buscar">
+  </div>
+  <div class="topbar-actions">
+    <button class="icon-btn" id="presentBtn" type="button">▶ Presentación</button>
+    <button class="icon-btn" id="themeBtn" type="button" aria-label="Cambiar tema">◐ Tema</button>
+  </div>
+</div>
+
+<nav class="mobnav" id="mobnav"></nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h4>Guía ASCRS 2026</h4>
+    <a class="nav-link tool" onclick="goTo('#recs')">§ Las 17 recomendaciones</a>
+    <h4>Dominios · ensayos</h4>
+    <div id="nav-blocks"></div>
+    <h4>Herramientas</h4>
+    <a class="nav-link tool" onclick="goTo('#comparador')">⇌ Comparador</a>
+    <a class="nav-link tool" onclick="goTo('#glosario')">📖 Glosario</a>
+    <a class="nav-link tool" onclick="startPresentation()">▶ Modo presentación</a>
+  </aside>
+
+  <main class="main">
+    <section class="hero">
+      <div class="hero-eyebrow">Enfermedad diverticular · Evidencia emblemática</div>
+      <h1 class="hero-title">Los ensayos que <em>sostienen</em> la guía ASCRS 2026</h1>
+      <div class="hero-author">
+        <span class="ha-name">Dr. Felipe Imigo Gueregat</span>
+        <span class="ha-role">Subespecialista en Cirugía Colorrectal</span>
+      </div>
+      <p class="hero-sub">Atlas de los ensayos clínicos y revisiones que fundamentan el manejo de la diverticulitis colónica izquierda, organizados por dominio clínico y por año. Cada tarjeta desglosa diseño, resultado y gradación GRADE, con enlace verificado al artículo.</p>
+      <div class="kpis" id="kpis"></div>
+    </section>
+
+    <div class="onboarding" id="onboarding">
+      <div class="onb-header" onclick="document.getElementById('onboarding').classList.toggle('expanded')">
+        <div class="onb-title">Cómo usar este atlas</div>
+        <svg class="onb-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+      </div>
+      <div class="onb-body"><div class="onb-content">
+        <div class="onb-step"><div class="onb-step-num">01</div><div class="onb-step-title">Navega por dominio</div><div class="onb-step-text">El panel izquierdo agrupa los ensayos por dominio clínico de la guía. La línea de tiempo los ordena por año para ver la evolución de la evidencia.</div></div>
+        <div class="onb-step"><div class="onb-step-num">02</div><div class="onb-step-title">Abre cada tarjeta</div><div class="onb-step-text">Cada ensayo tiene tres pestañas: Resumen (idea y resultado clave), Diseño (brazos, población, CONSORT) y Resultados (primario y secundarios).</div></div>
+        <div class="onb-step"><div class="onb-step-num">03</div><div class="onb-step-title">Lee las badges GRADE</div><div class="onb-step-text">Fuerza (fuerte/condicional) y certeza (alta/moderada/baja) según la recomendación que el ensayo sostiene. Las barras marcan la certeza.</div></div>
+        <div class="onb-step"><div class="onb-step-num">04</div><div class="onb-step-title">Usa las herramientas</div><div class="onb-step-text">Compara ensayos lado a lado, revisa la matriz de las 17 recomendaciones, consulta el glosario o entra al modo presentación para docencia.</div>
+          <div class="color-legend" id="legend"></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="timeline-wrap">
+      <div class="timeline-title">Línea de tiempo · de AVOD (2012) a LASER a 4 años (2025)</div>
+      <div class="timeline" id="timeline"></div>
+    </div>
+
+    <section class="block" id="recs" style="scroll-margin-top:74px">
+      <div class="block-header" style="border-bottom-color:var(--ink);color:var(--ink)">
+        <div class="block-num serif" style="-webkit-text-stroke-color:var(--ink)">§</div>
+        <div class="block-title-wrap">
+          <div class="block-eyebrow">Marco de la guía · GRADE</div>
+          <h2 class="block-title">Las 17 recomendaciones ASCRS 2026</h2>
+        </div>
+      </div>
+      <p class="block-intro">El marco que ordena todo el atlas: las diecisiete recomendaciones de la guía, cada una con su fuerza y certeza GRADE, lo que implica en la práctica, el cambio respecto de 2020 y los ensayos de este atlas que la sostienen.</p>
+      <div class="recs-grid" id="recs-grid"></div>
+    </section>
+
+    <div id="blocks"></div>
+
+    <section class="tool-section" id="comparador">
+      <div class="tool-head">⇌ Comparador de ensayos</div>
+      <p class="tool-desc">Selecciona dos o más ensayos para verlos lado a lado: tamaño, comparación, resultado primario y gradación GRADE.</p>
+      <div class="cmp-picker" id="cmp-picker"></div>
+      <div class="tbl-wrap" id="cmp-table"></div>
+    </section>
+
+    <section class="tool-section" id="glosario">
+      <div class="tool-head">📖 Glosario</div>
+      <p class="tool-desc">Términos clave para leer los ensayos y las recomendaciones.</p>
+      <div class="glossary" id="glossary"></div>
+    </section>
+
+    <footer class="credits">
+      <div class="authors">Dr. Felipe Imigo Gueregat · Subespecialista en Cirugía Colorrectal</div>
+      <p>Base: documento docente “Manejo de la diverticulitis colónica izquierda — Guía de práctica clínica ASCRS 2026, punto por punto”. Los datos de diseño y resultados fueron verificados en PubMed ensayo por ensayo. Toda cifra proviene de fuentes reales; los campos sin dato disponible se dejan vacíos, sin contenido ilustrativo. Material docente para residentes y especialistas.</p>
+    </footer>
+  </main>
+</div>
+
+<div class="present-overlay" id="present">
+  <div class="present-bar">
+    <div class="brand"><span class="brand-dot"></span><span class="serif">Modo presentación</span></div>
+    <button class="icon-btn" onclick="stopPresentation()" type="button">✕ Salir</button>
+  </div>
+  <div class="present-stage" id="present-stage"></div>
+  <div class="present-foot">
+    <span id="present-count"></span>
+    <div class="pf-btns">
+      <button class="icon-btn" onclick="presentStep(-1)" type="button">← Anterior</button>
+      <button class="icon-btn" onclick="presentStep(1)" type="button">Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const BLOCKS = [
+  {id:'b1',key:'Antibióticos',num:'01',eyebrow:'Recomendaciones 3 · manejo médico',title:'Antibióticos y enfermedad no complicada',intro:'El cambio de paradigma más sólido de la guía: en el inmunocompetente ambulatorio de bajo riesgo, el antibiótico dejó de ser obligatorio. Cuatro ensayos aleatorizados y sus seguimientos largos, más el metaanálisis Cochrane, sostienen una recomendación fuerte con certeza alta.'},
+  {id:'b5',key:'Prevención farmacológica',num:'02',eyebrow:'Recomendación 5 · prevención',title:'Prevención farmacológica de la recurrencia',intro:'Mesalazina, rifaximina y probióticos no se recomiendan de rutina para prevenir la recurrencia. La revisión Cochrane de mesalazina no halló diferencia, con evidencia de certeza muy baja.'},
+  {id:'b2',key:'Absceso',num:'03',eyebrow:'Recomendación 6 · absceso',title:'Absceso diverticular',intro:'La única recomendación genuinamente nueva de 2026: antibióticos siempre, drenaje percutáneo sobre 4 cm o ante deterioro. La cohorte DIPLICAB aporta el matiz del paciente inmunosuprimido.'},
+  {id:'b3',key:'Reconstrucción urgencia',num:'04',eyebrow:'Recomendaciones 8 y 9 · urgencia',title:'Cirugía de urgencia: reconstrucción y lavado',intro:'Dos preguntas de la peritonitis: cómo reconstruir (la anastomosis primaria protegida desplazó a la operación de Hartmann) y si el lavado laparoscópico tiene lugar (no de rutina, según los resultados de largo plazo).'},
+  {id:'b4',key:'Electiva/Calidad de vida',num:'05',eyebrow:'Recomendación 11 · electiva',title:'Cirugía electiva y calidad de vida',intro:'La resección electiva ya no se decide contando episodios, sino por calidad de vida. DIRECT y LASER miden GIQLI; el seguimiento a 4 años de LASER matiza el beneficio sostenido.'}
+];
+
+const DATA = [
+  // ===== B1 ANTIBIÓTICOS =====
+  {id:'avod',block:'b1',name:'AVOD',journal:'Br J Surg 2012',authors:'Chabok A, Påhlman L, Hjern F, Haapaniemi S, Smedh K',year:2012,n:623,tipo:'ECA multicéntrico',fuerza:'Fuerte',certeza:'Alta',rec:3,related:['diabolo','avod-lp'],
+   summary:'Primer ensayo aleatorizado en poner a prueba el antibiótico en la diverticulitis aguda no complicada. Con TC de confirmación, no hubo diferencia en complicaciones ni en recurrencia entre dar o no dar antibióticos.',
+   simple:'A pacientes con una diverticulitis leve confirmada por escáner se les dio, o no, antibióticos. No hubo diferencia: las complicaciones y las recaídas fueron iguales. Fue el primer estudio serio que mostró que el antibiótico no era imprescindible.',
+   take:'El antibiótico no acelera la recuperación ni previene complicaciones o recurrencia en la no complicada.',
+   question:'¿El antibiótico es necesario en la diverticulitis aguda no complicada confirmada por TC?',
+   armExp:'Sin antibióticos (líquidos endovenosos y observación)',armCtrl:'Antibióticos endovenosos',
+   poblacion:'623 pacientes con diverticulitis aguda no complicada izquierda confirmada por TC, en 10 servicios de Suecia y 1 de Islandia.',
+   endpoints:'Primario: recuperación sin complicaciones a 12 meses. Secundarios: absceso/perforación, estadía, recurrencia a 1 año.',
+   consort:{randomized:623,expN:309,ctrlN:314,followup:'12 meses'},
+   primary:{label:'Complicaciones (perforación o absceso)',exp:'1,9%',ctrl:'1,0%',diff:'Sin diferencia · p=0,30',narrative:'Las complicaciones fueron infrecuentes y sin diferencia significativa entre los grupos. La estadía mediana fue de 3 días en ambos, y la recurrencia que obligó a reingreso al año fue del 16% en ambos.'},
+   secondary:[
+     {label:'Estadía hospitalaria (mediana)',exp:'3 días',ctrl:'3 días',diff:'Sin diferencia',note:'La omisión del antibiótico no prolongó la hospitalización.'},
+     {label:'Recurrencia con reingreso a 1 año',exp:'16%',ctrl:'16%',diff:'p=0,88',note:'Tasa de recurrencia idéntica entre ambos brazos al año.'}
+   ],
+   impl:'Sentó las bases para reservar el antibiótico a la enfermedad complicada. Su limitación es que fue diseñado para complicaciones, un evento poco frecuente, lo que exige seguimientos largos para confirmar la conducta.',
+   caveats:['Evento primario (complicaciones) poco frecuente, lo que limita la potencia.','Población seleccionada: inmunocompetentes de bajo riesgo.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1002/bjs.8688',
+   cite:'Chabok A, et al. Randomized clinical trial of antibiotics in acute uncomplicated diverticulitis. Br J Surg. 2012;99:532-539.'},
+
+  {id:'avod-lp',block:'b1',name:'AVOD · seguimiento a 11 años',journal:'Br J Surg 2019',authors:'Isacson D, Smedh K, Nikberg M, Chabok A',year:2019,n:623,tipo:'Seguimiento a largo plazo',fuerza:'Fuerte',certeza:'Alta',rec:3,related:['avod'],
+   summary:'El seguimiento largo de AVOD confirmó, con una mediana de 11 años, que evitar el antibiótico es seguro: recurrencia, complicaciones y cirugía fueron equivalentes.',
+   simple:'Once años después del estudio AVOD, se revisó qué pasó con esos pacientes. Los que no recibieron antibióticos no tuvieron más recaídas, más complicaciones ni más cirugías. La conducta era segura a largo plazo.',
+   take:'Evitar el antibiótico en la no complicada es seguro también en el largo plazo.',
+   question:'¿Se mantiene la seguridad de omitir el antibiótico tras más de una década?',
+   armExp:'Sin antibióticos (cohorte AVOD)',armCtrl:'Antibióticos (cohorte AVOD)',
+   poblacion:'556 de los 623 pacientes de AVOD (89%), seguidos por una mediana de 11 años.',
+   endpoints:'Recurrencia, complicaciones, cirugía por diverticulitis, cáncer colorrectal y calidad de vida (EQ-5D).',
+   consort:{randomized:623,expN:309,ctrlN:314,followup:'Mediana 11 años'},
+   primary:{label:'Recurrencia a largo plazo',exp:'31,3%',ctrl:'31,3%',diff:'Idéntica · p=0,99',narrative:'La recurrencia fue exactamente igual en ambos brazos. Tampoco hubo diferencias en complicaciones (4,4% vs. 5,0%), cirugía por diverticulitis (6,2% vs. 7,1%) ni cáncer colorrectal.'},
+   secondary:[
+     {label:'Complicaciones',exp:'4,4%',ctrl:'5,0%',diff:'p=0,74',note:'Sin diferencia en complicaciones a largo plazo.'},
+     {label:'Cirugía por diverticulitis',exp:'6,2%',ctrl:'7,1%',diff:'p=0,72',note:'Necesidad de cirugía equivalente entre grupos.'}
+   ],
+   impl:'Convierte la conducta de omitir el antibiótico en una recomendación con respaldo a más de una década, sin señales de daño diferido.',
+   caveats:['Análisis descriptivo de seguimiento, no potenciado para desenlaces raros.','Respuesta parcial a los cuestionarios de calidad de vida.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1002/bjs.11239',
+   cite:'Isacson D, et al. Long-term follow-up of the AVOD randomized trial of antibiotic avoidance in uncomplicated diverticulitis. Br J Surg. 2019;106:1542-1548.'},
+
+  {id:'diabolo',block:'b1',name:'DIABOLO',journal:'Br J Surg 2017',authors:'Daniels L, Ünlü Ç, de Korte N, et al.',year:2017,n:528,tipo:'ECA multicéntrico',fuerza:'Fuerte',certeza:'Alta',rec:3,related:['avod','diabolo-lp'],
+   summary:'Ensayo holandés que comparó observación vs. antibióticos en el primer episodio de diverticulitis no complicada confirmada por TC. No hubo diferencia en el tiempo de recuperación.',
+   simple:'En el primer episodio de diverticulitis leve, tratar solo con observación funcionó igual de rápido que tratar con antibióticos. Los pacientes se recuperaron en un tiempo parecido.',
+   take:'La observación no es inferior al antibiótico en el primer episodio no complicado.',
+   question:'¿La observación iguala al antibiótico en el primer episodio no complicado?',
+   armExp:'Observación (sin antibióticos)',armCtrl:'Antibióticos',
+   poblacion:'528 pacientes con primer episodio de diverticulitis izquierda no complicada, TC-probada, en 22 centros de Países Bajos.',
+   endpoints:'Primario: tiempo hasta la recuperación en 6 meses. Secundarios: complicaciones, recurrencia, resección sigmoidea, reingreso.',
+   consort:{randomized:528,expN:null,ctrlN:null,followup:'6 meses'},
+   primary:{label:'Tiempo medio de recuperación',exp:'14 días',ctrl:'12 días',diff:'Sin diferencia significativa',narrative:'El tiempo medio hasta la recuperación fue similar entre observación y antibióticos, sin diferencias relevantes en complicaciones, recurrencia ni necesidad de cirugía a 6 meses.'},
+   secondary:[
+     {label:'Diverticulitis complicada',exp:'sin diferencia',ctrl:'sin diferencia',diff:'NS',note:'La progresión a complicada no difirió entre estrategias.'}
+   ],
+   impl:'Reforzó a AVOD desde otra población y sistema de salud. Junto con AVOD constituye la base de la recomendación fuerte de certeza alta.',
+   caveats:['Diseño abierto (sin ciego).','Endpoint de recuperación sensible a la definición usada.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1002/bjs.10309',
+   cite:'Daniels L, et al. Randomized clinical trial of observational versus antibiotic treatment for a first episode of CT-proven uncomplicated acute diverticulitis (DIABOLO). Br J Surg. 2017;104:52-61.'},
+
+  {id:'diabolo-lp',block:'b1',name:'DIABOLO · seguimiento a 24 meses',journal:'Am J Gastroenterol 2018',authors:'van Dijk ST, Daniels L, Ünlü Ç, et al.',year:2018,n:528,tipo:'Seguimiento a largo plazo',fuerza:'Fuerte',certeza:'Alta',rec:3,related:['diabolo'],
+   summary:'El seguimiento a 24 meses de DIABOLO no mostró más complicaciones, recurrencia ni resecciones al omitir el antibiótico, aunque persistió una tendencia no significativa a más resección sigmoidea.',
+   simple:'Dos años después de DIABOLO, quienes no recibieron antibióticos no tuvieron más problemas. Hubo una leve tendencia a más cirugías de sigmoides, pero sin significación estadística.',
+   take:'Omitir el antibiótico no aumenta complicaciones ni recurrencia a 24 meses.',
+   question:'¿Se mantienen los resultados de DIABOLO a los 2 años?',
+   armExp:'Observación (cohorte DIABOLO)',armCtrl:'Antibióticos (cohorte DIABOLO)',
+   poblacion:'528 pacientes de DIABOLO, seguidos a 24 meses.',
+   endpoints:'Diverticulitis complicada, recurrente y resección sigmoidea a 24 meses; factores de riesgo por regresión.',
+   consort:{randomized:528,expN:null,ctrlN:null,followup:'24 meses'},
+   primary:{label:'Recurrencia a 24 meses',exp:'15,4%',ctrl:'14,9%',diff:'Sin diferencia · p=0,89',narrative:'La recurrencia fue equivalente. La complicada (4,8% vs. 3,3%) y la resección sigmoidea (9,0% vs. 5,0%, p=0,085) mostraron diferencias no significativas. El tipo de tratamiento no fue predictor independiente de mala evolución.'},
+   secondary:[
+     {label:'Diverticulitis complicada',exp:'4,8%',ctrl:'3,3%',diff:'p=0,40',note:'Sin diferencia significativa.'},
+     {label:'Resección sigmoidea',exp:'9,0%',ctrl:'5,0%',diff:'p=0,085',note:'Tendencia a más resección en observación, sin alcanzar significación; el estudio no estaba potenciado para este desenlace.'}
+   ],
+   impl:'Confirma la seguridad de la observación a 2 años, con la reserva de que el ensayo no fue diseñado para estos desenlaces secundarios.',
+   caveats:['Análisis secundario, sin potencia para complicaciones/resección.','Persistió una tendencia no significativa a más resección sin antibióticos.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1038/s41395-018-0030-y',
+   cite:'van Dijk ST, et al. Long-term effects of omitting antibiotics in uncomplicated acute diverticulitis. Am J Gastroenterol. 2018;113:1045-1052.'},
+
+  {id:'stand',block:'b1',name:'STAND',journal:'Clin Gastroenterol Hepatol 2021',authors:'Jaung R, Nisbet S, Gosselink MP, et al.',year:2021,n:180,tipo:'ECA doble ciego con placebo',fuerza:'Fuerte',certeza:'Alta',rec:3,related:['avod','dinamo'],
+   summary:'El primer ensayo con placebo real en diverticulitis no complicada. Antibiótico vs. placebo no cambió la estadía hospitalaria, aportando la pieza que faltaba a AVOD y DIABOLO (que no eran ciegos).',
+   simple:'A diferencia de los estudios previos, aquí el grupo control recibió un placebo idéntico, sin que nadie supiera qué tomaba. Dar antibiótico o placebo dio la misma estadía en el hospital.',
+   take:'Con placebo y doble ciego, el antibiótico tampoco acorta la hospitalización.',
+   question:'¿El antibiótico supera al placebo en la no complicada, en condiciones de doble ciego?',
+   armExp:'Antibióticos',armCtrl:'Placebo',
+   poblacion:'180 pacientes hospitalizados por diverticulitis no complicada (Hinchey 1a) en Nueva Zelanda y Australia.',
+   endpoints:'Primario: estadía hospitalaria. Secundarios: eventos adversos, reingreso, intervención, marcadores inflamatorios, dolor.',
+   consort:{randomized:180,expN:85,ctrlN:95,followup:'30 días'},
+   primary:{label:'Estadía hospitalaria (mediana)',exp:'40,0 h',ctrl:'45,8 h',diff:'Sin diferencia · p=0,2',narrative:'La mediana de estadía no difirió entre antibiótico y placebo. Tampoco hubo diferencias en eventos adversos (12% en ambos) ni en reingreso a 30 días.'},
+   secondary:[
+     {label:'Eventos adversos',exp:'12%',ctrl:'12%',diff:'p=1,0',note:'Idénticos entre grupos.'},
+     {label:'Reingreso a 30 días',exp:'6%',ctrl:'11%',diff:'p=0,3',note:'Sin diferencia significativa.'}
+   ],
+   impl:'Cierra el argumento metodológico: el beneficio del antibiótico no se sostiene ni siquiera frente a placebo enmascarado.',
+   caveats:['Tamaño moderado (180), potencia limitada para desenlaces raros.','Pacientes hospitalizados, no ambulatorios.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1016/j.cgh.2020.03.049',
+   cite:'Jaung R, et al. Antibiotics do not reduce length of hospital stay for uncomplicated diverticulitis in a pragmatic double-blind randomized trial (STAND). Clin Gastroenterol Hepatol. 2021;19:503-510.'},
+
+  {id:'dinamo',block:'b1',name:'DINAMO',journal:'Ann Surg 2021',authors:'Mora-López L, Ruiz-Edo N, Estrada-Ferrer O, et al.',year:2021,n:480,tipo:'ECA de no inferioridad',fuerza:'Fuerte',certeza:'Alta',rec:3,related:['avod','stand'],
+   summary:'Ensayo español que llevó la pregunta al ámbito ambulatorio: en diverticulitis leve tratada en la casa, el manejo sin antibióticos fue no inferior en tasa de hospitalización.',
+   simple:'En diverticulitis leve tratada de forma ambulatoria (en casa), no dar antibióticos no llevó a más hospitalizaciones que darlos. El manejo sin antibióticos en casa es seguro.',
+   take:'El manejo ambulatorio sin antibióticos es no inferior en la diverticulitis leve.',
+   question:'¿Es seguro el tratamiento ambulatorio sin antibióticos en la diverticulitis leve?',
+   armExp:'Sin antibióticos (antiinflamatorio y sintomático)',armCtrl:'Antibióticos (amoxicilina/clavulánico) + sintomático',
+   poblacion:'480 pacientes con diverticulitis leve confirmada por TC, en 15 hospitales de España.',
+   endpoints:'Primario: hospitalización (no inferioridad). Secundarios: revisitas a urgencias, control del dolor, cirugía de urgencia.',
+   consort:{randomized:480,expN:242,ctrlN:238,followup:'90 días'},
+   primary:{label:'Hospitalización',exp:'3,3%',ctrl:'5,8%',diff:'No inferioridad confirmada',narrative:'La tasa de hospitalización sin antibióticos (3,3%) no fue inferior a la del grupo con antibióticos (5,8%), dentro del margen preestablecido. Las revisitas a urgencias fueron equivalentes (7% vs. 6,7%).'},
+   secondary:[
+     {label:'Revisitas a urgencias',exp:'7,0%',ctrl:'6,7%',diff:'NS',note:'Sin diferencia entre grupos.'},
+     {label:'Mal control del dolor a 2 días',exp:'2,3%',ctrl:'5,7%',diff:'NS',note:'Sin diferencia significativa.'}
+   ],
+   impl:'Extiende la conducta de omitir antibióticos al escenario ambulatorio, el más frecuente en la práctica.',
+   caveats:['Diseño abierto.','Definición de "leve" acota la generalización.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1097/SLA.0000000000005031',
+   cite:'Mora-López L, et al. Efficacy and safety of nonantibiotic outpatient treatment in mild acute diverticulitis (DINAMO). Ann Surg. 2021;274:e435-e442.'},
+
+  {id:'cochrane-atb',block:'b1',name:'Cochrane · Antibióticos',journal:'Cochrane Database Syst Rev',authors:'Revisión sistemática / metaanálisis',year:null,n:1809,tipo:'Revisión sistemática',fuerza:'Fuerte',certeza:'Alta',rec:3,related:['avod','diabolo','stand','dinamo'],
+   summary:'La síntesis cuantitativa de los ensayos de antibióticos en la no complicada: con certeza alta, poco o ningún efecto sobre los desenlaces duros.',
+   simple:'Al juntar todos los estudios en un solo análisis, la conclusión se refuerza: el antibiótico casi no cambia la mortalidad, la progresión a complicada ni la necesidad de cirugía en la diverticulitis leve.',
+   take:'Con certeza alta, el antibiótico tiene poco o ningún efecto sobre mortalidad, progresión o cirugía.',
+   question:'¿Cuál es el efecto agregado del antibiótico sobre los desenlaces duros?',
+   armExp:'Sin antibióticos',armCtrl:'Antibióticos',
+   poblacion:'Metaanálisis de 1809 participantes de los ensayos de antibióticos en diverticulitis no complicada.',
+   endpoints:'Mortalidad, progresión a complicada, cirugía, readmisión y recurrencia.',
+   consort:{randomized:1809,expN:null,ctrlN:null,followup:'—'},
+   primary:{label:'Efecto sobre desenlaces duros',exp:'poco/ningún efecto',ctrl:'referencia',diff:'Certeza alta',narrative:'Con certeza alta, los antibióticos tienen poco o ningún efecto sobre mortalidad, progresión a complicada o necesidad de cirugía; con certeza moderada, poco efecto sobre readmisión y recurrencia. La vía oral no fue inferior a la endovenosa y un curso de 4 días equivalió a 7 en inmunocompetentes.'},
+   secondary:[],
+   impl:'Es la base cuantitativa de la recomendación fuerte con certeza alta y del acortamiento de los esquemas.',
+   caveats:['Heterogeneidad entre poblaciones y definiciones de recurrencia.'],
+   acceso:'Texto completo libre',libre:true,doi:'10.1002/14651858.CD009092.pub3',
+   cite:'Metaanálisis de antibióticos en diverticulitis no complicada (1809 participantes). Cochrane Database of Systematic Reviews, CD009092.pub3.'},
+
+  // ===== B5 PREVENCIÓN =====
+  {id:'cochrane-mes',block:'b5',name:'Cochrane · Mesalazina (5-ASA)',journal:'Cochrane Database Syst Rev',authors:'Revisión sistemática Cochrane',year:null,n:1805,tipo:'Revisión sistemática',fuerza:'Condicional',certeza:'Baja',rec:5,related:[],
+   summary:'La revisión de mesalazina para prevenir la recurrencia no encontró beneficio, con evidencia de certeza muy baja.',
+   simple:'Se probó la mesalazina, un antiinflamatorio intestinal, para evitar que la diverticulitis vuelva. No funcionó: las recaídas fueron iguales con o sin el fármaco, y la calidad de la evidencia era muy baja.',
+   take:'La mesalazina no previene la recurrencia; no se recomienda de rutina.',
+   question:'¿La mesalazina previene la recurrencia de la diverticulitis?',
+   armExp:'Mesalazina (5-ASA)',armCtrl:'Control',
+   poblacion:'7 ensayos con 1805 pacientes.',
+   endpoints:'Recurrencia de diverticulitis.',
+   consort:{randomized:1805,expN:null,ctrlN:null,followup:'—'},
+   primary:{label:'Recurrencia',exp:'31,3%',ctrl:'29,8%',diff:'RR 0,69 (IC 0,43–1,09)',narrative:'No hubo diferencia significativa en recurrencia. Los estudios tenían riesgo de sesgo poco claro o alto, y la evidencia se consideró de certeza muy baja.'},
+   secondary:[],
+   impl:'Sostiene la recomendación de no prescribir mesalazina ni probióticos de rutina; la excepción con valor sintomático es la fibra con rifaximina cíclica.',
+   caveats:['Alto riesgo de sesgo en los estudios incluidos.','Heterogeneidad clínica y metodológica.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1002/14651858.CD009839.pub2',
+   cite:'Revisión Cochrane de mesalazina (5-ASA) para prevención de recurrencia (7 ensayos, 1805 pacientes). Cochrane Database of Systematic Reviews, CD009839.pub2.'},
+
+  // ===== B2 ABSCESO =====
+  {id:'diplicab',block:'b2',name:'DIPLICAB',journal:'Colorectal Dis 2024',authors:'Ocaña J, García-Pérez JC, Fernández-Martínez D, et al.',year:2024,n:1395,tipo:'Cohorte multicéntrica',fuerza:'Fuerte',certeza:'Moderada',rec:6,related:[],
+   summary:'Cohorte nacional española que comparó el manejo no operatorio del absceso entre inmunosuprimidos e inmunocompetentes: falla similar, pero mucho mayor mortalidad en el inmunosuprimido.',
+   simple:'En pacientes con absceso por diverticulitis, tratar sin cirugía funcionó parecido en inmunosuprimidos y en pacientes con defensas normales. Pero cuando el inmunosuprimido necesitó cirugía de urgencia, murió mucho más.',
+   take:'El manejo no operatorio del absceso es seguro; el inmunosuprimido operado de urgencia tiene alta mortalidad.',
+   question:'¿El inmunosuprimido con absceso tiene peor evolución con manejo no operatorio?',
+   armExp:'Inmunosuprimidos (IMS)',armCtrl:'Inmunocompetentes (IC)',
+   poblacion:'1395 pacientes con primer episodio de diverticulitis Hinchey Ib–II en 29 centros españoles (2015–2019); 118 IMS y 1277 IC.',
+   endpoints:'Falla del manejo no operatorio (cirugía de urgencia), mortalidad, recurrencia; factores de riesgo de cirugía de urgencia.',
+   consort:{randomized:1395,expN:118,ctrlN:1277,followup:'Corto y largo plazo'},
+   primary:{label:'Cirugía de urgencia (falla)',exp:'19,5%',ctrl:'13,5%',diff:'Sin diferencia · p=0,075',narrative:'La necesidad de cirugía de urgencia no difirió significativamente entre inmunosuprimidos e inmunocompetentes, pero la mortalidad fue muy superior en el inmunosuprimido (15,1% vs. 0,6%). La recurrencia fue similar (28% vs. 28,2%).'},
+   secondary:[
+     {label:'Mortalidad',exp:'15,1%',ctrl:'0,6%',diff:'p<0,001',note:'La mortalidad en el inmunosuprimido, sobre todo al requerir cirugía de urgencia, fue marcadamente mayor.'},
+     {label:'Recurrencia',exp:'28%',ctrl:'28,2%',diff:'p=0,96',note:'Sin diferencia en recurrencia entre grupos.'}
+   ],
+   impl:'Apoya el manejo no operatorio del absceso también en el inmunosuprimido, pero obliga a un umbral de vigilancia mayor por la letalidad de la cirugía de urgencia en ese grupo. Tamaño de absceso ≥5 cm, Hinchey II y gas libre fueron predictores de cirugía.',
+   caveats:['Diseño retrospectivo (cohorte), no aleatorizado.','Grupo inmunosuprimido pequeño (n=118).'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1111/codi.16810',
+   cite:'Ocaña J, et al. Outcomes of initially nonoperative management of diverticulitis with abscess formation in immunosuppressed patients (DIPLICAB). Colorectal Dis. 2024;26:120-129.'},
+
+  // ===== B3 URGENCIA =====
+  {id:'colonperf',block:'b3',name:'ColonPerf',journal:'Ann Surg 2012',authors:'Oberkofler CE, Rickenbacher A, Raptis DA, et al.',year:2012,n:62,tipo:'ECA multicéntrico',fuerza:'Condicional',certeza:'Moderada',rec:8,related:['diverti','ladies-diva'],
+   summary:'Primer ensayo aleatorizado que favoreció la anastomosis primaria con ileostomía sobre la operación de Hartmann en la peritonitis por perforación: misma morbimortalidad, mucho mayor tasa de cierre de ostomía.',
+   simple:'Ante una perforación con peritonitis, se comparó la operación de Hartmann (deja colostomía) con unir el intestino y protegerlo con una ileostomía. La segunda dejó a muchos más pacientes finalmente sin bolsa, con los mismos riesgos.',
+   take:'La anastomosis primaria con ileostomía deja a más pacientes libres de estoma, con igual morbimortalidad.',
+   question:'¿Anastomosis primaria con ileostomía o Hartmann en la peritonitis perforada?',
+   armExp:'Anastomosis primaria + ileostomía de derivación',armCtrl:'Operación de Hartmann',
+   poblacion:'62 pacientes con perforación colónica izquierda (Hinchey III–IV) en 4 centros.',
+   endpoints:'Primario: tasa global de complicaciones (resección + cierre). Secundarios: cierre de estoma, complicaciones graves, tiempo operatorio, estadía, costos.',
+   consort:{randomized:62,expN:32,ctrlN:30,followup:'Cierre de ostomía a 3 meses'},
+   primary:{label:'Complicaciones globales',exp:'84%',ctrl:'80%',diff:'Sin diferencia · p=0,81',narrative:'La complicación global (sumando resección y cierre) fue comparable. Pero el cierre de ostomía fue mucho más frecuente con anastomosis primaria (90% vs. 57%, p=0,005), con menos complicaciones graves en el cierre (0% vs. 20%), menor tiempo operatorio, estadía y costos. El estudio se detuvo tras el análisis interino.'},
+   secondary:[
+     {label:'Cierre de ostomía',exp:'90%',ctrl:'57%',diff:'p=0,005',note:'La anastomosis primaria dejó a muchos más pacientes finalmente sin estoma.'},
+     {label:'Complicaciones graves en el cierre',exp:'0%',ctrl:'20%',diff:'p=0,046',note:'El cierre de la ileostomía fue más seguro que el de la colostomía terminal.'}
+   ],
+   impl:'Inició el desplazamiento de la operación de Hartmann como estándar en el paciente adecuado. La anastomosis fue siempre protegida con derivación.',
+   caveats:['Tamaño pequeño (62) y detención precoz por análisis interino.','La anastomosis fue siempre derivada: no avala la anastomosis sin protección.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1097/SLA.0b013e31827324ba',
+   cite:'Oberkofler CE, et al. A multicenter randomized clinical trial of primary anastomosis or Hartmann’s procedure for perforated left colonic diverticulitis with purulent or fecal peritonitis (ColonPerf). Ann Surg. 2012;256:819-826.'},
+
+  {id:'diverti',block:'b3',name:'DIVERTI',journal:'J Am Coll Surg 2017',authors:'Bridoux V, Regimbeau JM, Ouaissi M, et al.',year:2017,n:102,tipo:'ECA multicéntrico',fuerza:'Condicional',certeza:'Moderada',rec:8,related:['colonperf','ladies-diva'],
+   summary:'Ensayo francés en peritonitis generalizada: misma mortalidad entre Hartmann y anastomosis primaria, con mucho mayor cierre de estoma a 18 meses en el brazo de anastomosis.',
+   simple:'En peritonitis generalizada por diverticulitis, unir el intestino no fue más peligroso que la operación de Hartmann, y a los 18 meses casi todos los pacientes anastomosados quedaron sin bolsa.',
+   take:'A 18 meses, la anastomosis primaria deja a más pacientes sin estoma, con igual mortalidad.',
+   question:'¿La anastomosis primaria reduce la mortalidad frente a Hartmann en la peritonitis difusa?',
+   armExp:'Anastomosis primaria (con derivación)',armCtrl:'Operación de Hartmann',
+   poblacion:'102 pacientes con peritonitis diverticular purulenta o fecaloidea (Hinchey III–IV) en centros franceses.',
+   endpoints:'Primario: mortalidad a 18 meses. Secundarios: complicaciones, tiempo operatorio, estadía, tasa de estoma definitivo.',
+   consort:{randomized:102,expN:51,ctrlN:51,followup:'18 meses'},
+   primary:{label:'Mortalidad a 18 meses',exp:'4%',ctrl:'7,7%',diff:'Sin diferencia · p=0,42',narrative:'La mortalidad no difirió entre anastomosis primaria y Hartmann. La morbilidad global fue comparable (44% vs. 39%). A 18 meses, el cierre de estoma fue mucho mayor con anastomosis primaria (96% vs. 65%, p=0,0001).'},
+   secondary:[
+     {label:'Cierre de estoma a 18 meses',exp:'96%',ctrl:'65%',diff:'p=0,0001',note:'Diferencia marcada a favor de la anastomosis primaria.'},
+     {label:'Morbilidad global',exp:'44%',ctrl:'39%',diff:'p=0,42',note:'Sin diferencia significativa.'}
+   ],
+   impl:'Confirma a ColonPerf: la anastomosis primaria protegida es preferible bajo condiciones óptimas, dejando el Hartmann para el escenario subóptimo.',
+   caveats:['Potenciado para mortalidad, un evento poco frecuente.','Resultado de estoma como secundario.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1016/j.jamcollsurg.2017.09.004',
+   cite:'Bridoux V, et al. Hartmann’s procedure or primary anastomosis for generalized peritonitis due to perforated diverticulitis (DIVERTI). J Am Coll Surg. 2017;225:798-805.'},
+
+  {id:'ladies-diva',block:'b3',name:'LADIES (brazo DIVA)',journal:'Lancet Gastroenterol Hepatol 2019',authors:'Lambrichts DPV, Vennix S, Musters GD, et al.',year:2019,n:133,tipo:'ECA multicéntrico',fuerza:'Condicional',certeza:'Moderada',rec:8,related:['colonperf','diverti'],
+   summary:'El brazo DIVA de LADIES, el mayor ensayo del tema: la sigmoidectomía con anastomosis primaria superó a Hartmann en supervivencia libre de estoma a 12 meses, sin diferencias en morbimortalidad.',
+   simple:'El estudio más grande sobre el tema confirmó que unir el intestino (con o sin ileostomía) deja a muchos más pacientes sin bolsa al año que la operación de Hartmann, y es igual de seguro.',
+   take:'La anastomosis primaria es preferible a Hartmann en el paciente estable e inmunocompetente <85 años.',
+   question:'¿Anastomosis primaria o Hartmann en la peritonitis Hinchey III–IV?',
+   armExp:'Anastomosis primaria (±ileostomía)',armCtrl:'Operación de Hartmann',
+   poblacion:'133 pacientes con peritonitis purulenta o fecaloidea (Hinchey III–IV) en 42 hospitales de Bélgica, Italia y Países Bajos.',
+   endpoints:'Primario: supervivencia libre de estoma a 12 meses. Secundarios: morbilidad y mortalidad a corto plazo.',
+   consort:{randomized:133,expN:64,ctrlN:66,followup:'12 meses'},
+   primary:{label:'Supervivencia libre de estoma a 12 meses',exp:'94,6%',ctrl:'71,7%',diff:'HR 2,79 (IC 1,86–4,18) · p<0,0001',narrative:'La supervivencia libre de estoma a 12 meses fue significativamente mayor con anastomosis primaria. No hubo diferencias en morbilidad (39% vs. 44%) ni mortalidad (6% vs. 3%) tras la intervención índice. En 27% de los anastomosados no se construyó estoma.'},
+   secondary:[
+     {label:'Morbilidad a corto plazo',exp:'39%',ctrl:'44%',diff:'p=0,60',note:'Sin diferencia significativa.'},
+     {label:'Mortalidad',exp:'6%',ctrl:'3%',diff:'p=0,44',note:'Sin diferencia significativa.'}
+   ],
+   impl:'Es la evidencia de mayor peso a favor de la anastomosis primaria en pacientes seleccionados (hemodinámicamente estables, inmunocompetentes, <85 años).',
+   caveats:['Terminado antes de completar el reclutamiento previsto.','Restringido a pacientes estables e inmunocompetentes <85 años.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1016/S2468-1253(19)30174-8',
+   cite:'Lambrichts DPV, et al. Hartmann’s procedure versus sigmoidectomy with primary anastomosis for perforated diverticulitis (LADIES). Lancet Gastroenterol Hepatol. 2019;4:599-610.'},
+
+  {id:'lola',block:'b3',name:'LOLA (brazo de LADIES)',journal:'Lancet 2015',authors:'Vennix S, Musters GD, Mulder IM, et al.',year:2015,n:90,tipo:'ECA multicéntrico',fuerza:'Condicional',certeza:'Moderada',rec:9,related:['scandiv','dilala'],
+   summary:'El brazo LOLA de LADIES comparó lavado laparoscópico vs. sigmoidectomía en peritonitis purulenta. Se detuvo precozmente por mayor tasa de eventos en el grupo de lavado.',
+   simple:'Se probó lavar la cavidad por laparoscopía en vez de resecar el colon en la peritonitis purulenta. El estudio se detuvo antes de tiempo porque el grupo de lavado tuvo más complicaciones.',
+   take:'El lavado laparoscópico no fue superior a la sigmoidectomía y se asoció a más eventos.',
+   question:'¿El lavado laparoscópico supera a la resección en la peritonitis purulenta?',
+   armExp:'Lavado laparoscópico',armCtrl:'Sigmoidectomía (Hartmann o anastomosis)',
+   poblacion:'90 pacientes con peritonitis purulenta perforada (excluida la fecaloidea) en 42 hospitales de Bélgica, Italia y Países Bajos.',
+   endpoints:'Primario: morbilidad mayor y mortalidad a 12 meses (compuesto).',
+   consort:{randomized:90,expN:45,ctrlN:42,followup:'12 meses'},
+   primary:{label:'Morbimortalidad mayor a 12 meses',exp:'67%',ctrl:'60%',diff:'OR 1,28 (IC 0,54–3,03) · p=0,58',narrative:'El evento compuesto no difirió significativamente, pero el estudio fue detenido por la junta de seguridad ante una mayor tasa de eventos en el grupo de lavado. A 12 meses murieron 4 pacientes tras lavado y 6 tras sigmoidectomía.'},
+   secondary:[
+     {label:'Mortalidad a 12 meses',exp:'4 pacientes',ctrl:'6 pacientes',diff:'p=0,43',note:'Sin diferencia significativa en mortalidad.'}
+   ],
+   impl:'Primer aviso fuerte contra el lavado laparoscópico de rutina; junto con SCANDIV y DILALA definió la recomendación condicional actual.',
+   caveats:['Detenido precozmente por seguridad.','Excluyó la peritonitis fecaloidea, donde el lavado no corresponde.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1016/S0140-6736(15)61168-0',
+   cite:'Vennix S, et al. Laparoscopic peritoneal lavage or sigmoidectomy for perforated diverticulitis with purulent peritonitis (LOLA, Ladies trial). Lancet. 2015;386:1269-1277.'},
+
+  {id:'scandiv',block:'b3',name:'SCANDIV',journal:'JAMA 2015',authors:'Schultz JK, Yaqub S, Wallon C, et al.',year:2015,n:199,tipo:'ECA multicéntrico',fuerza:'Condicional',certeza:'Moderada',rec:9,related:['lola','scandiv-lp','dilala'],
+   summary:'Ensayo escandinavo de lavado laparoscópico vs. resección primaria en la perforada aguda. Sin diferencia en complicaciones severas a 90 días, pero con más reoperaciones y cánceres pasados por alto en el lavado.',
+   simple:'Comparó lavar por laparoscopía con resecar el colon en la diverticulitis perforada. Las complicaciones graves a 90 días fueron parecidas, pero en el grupo de lavado hubo más reoperaciones y se pasaron por alto cuatro cánceres.',
+   take:'El lavado no redujo las complicaciones severas y empeoró desenlaces secundarios.',
+   question:'¿El lavado laparoscópico reduce las complicaciones severas frente a la resección?',
+   armExp:'Lavado laparoscópico',armCtrl:'Resección primaria',
+   poblacion:'199 pacientes con sospecha de diverticulitis perforada y aire libre en TC, en 21 centros de Suecia y Noruega.',
+   endpoints:'Primario: complicaciones severas (Clavien-Dindo >IIIa) a 90 días. Secundarios: reoperaciones, mortalidad, estadía, calidad de vida.',
+   consort:{randomized:199,expN:101,ctrlN:98,followup:'90 días'},
+   primary:{label:'Complicaciones severas a 90 días',exp:'30,7%',ctrl:'26,0%',diff:'Sin diferencia · p=0,53',narrative:'No hubo diferencia en el desenlace primario. Pero la reoperación fue mayor con lavado (20,3% vs. 5,7%, p=0,01) en quienes no tenían peritonitis fecaloidea, y se pasaron por alto cuatro carcinomas sigmoideos con el lavado.'},
+   secondary:[
+     {label:'Reoperación',exp:'20,3%',ctrl:'5,7%',diff:'p=0,01',note:'Mayor tasa de reoperación con lavado en no fecaloidea.'},
+     {label:'Mortalidad a 90 días',exp:'13,9%',ctrl:'11,5%',diff:'p=0,67',note:'Sin diferencia significativa.'}
+   ],
+   impl:'Contribuyó a degradar el lavado laparoscópico de recomendación fuerte (2020) a condicional (2026).',
+   caveats:['Cuatro cánceres no detectados con lavado, un riesgo relevante.','Heterogeneidad en la técnica de resección.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1001/jama.2015.12076',
+   cite:'Schultz JK, et al. Laparoscopic lavage vs primary resection for acute perforated diverticulitis: the SCANDIV randomized clinical trial. JAMA. 2015;314:1364-1375.'},
+
+  {id:'scandiv-lp',block:'b3',name:'SCANDIV · seguimiento a 5 años',journal:'JAMA Surg 2021',authors:'Azhar N, Johanssen A, Sundström T, et al.',year:2021,n:199,tipo:'Seguimiento a largo plazo',fuerza:'Condicional',certeza:'Moderada',rec:9,related:['scandiv'],
+   summary:'El seguimiento a 5 años de SCANDIV: sin diferencia en complicaciones severas, pero con mucha más recurrencia tras el lavado, compensada por menor prevalencia de estoma.',
+   simple:'Cinco años después, el lavado y la resección tuvieron complicaciones graves parecidas, pero tras el lavado la diverticulitis volvió mucho más (a menudo terminando en resección). A cambio, muchos menos pacientes quedaron con bolsa.',
+   take:'A 5 años el lavado deja más recurrencia pero menos estomas: decisión compartida.',
+   question:'¿Cómo se comparan lavado y resección en el largo plazo?',
+   armExp:'Lavado laparoscópico',armCtrl:'Resección primaria',
+   poblacion:'Subgrupo con peritonitis purulenta confirmada (145 pacientes), mediana de seguimiento 59 meses.',
+   endpoints:'Primario: complicaciones severas a 5 años. Secundarios: mortalidad, reoperaciones, recurrencia, estoma, calidad de vida.',
+   consort:{randomized:199,expN:74,ctrlN:71,followup:'Mediana 59 meses'},
+   primary:{label:'Complicaciones severas a 5 años',exp:'36%',ctrl:'35%',diff:'Sin diferencia · p=0,92',narrative:'Sin diferencia en complicaciones severas. La recurrencia fue mucho mayor tras el lavado (21% vs. 4%, p=0,004), a menudo llevando a resección; pero la prevalencia de estoma fue mucho menor con lavado (8% vs. 33%, p=0,002) entre los vivos.'},
+   secondary:[
+     {label:'Recurrencia de diverticulitis',exp:'21%',ctrl:'4%',diff:'p=0,004',note:'Más recurrencia tras lavado; el 30% de ese grupo terminó en sigmoidectomía.'},
+     {label:'Prevalencia de estoma',exp:'8%',ctrl:'33%',diff:'p=0,002',note:'Muchos menos estomas con lavado entre los pacientes vivos.'}
+   ],
+   impl:'Ancla la recomendación condicional: el lavado no es de rutina, pero su balance recurrencia/estoma justifica una decisión compartida.',
+   caveats:['Mortalidad global alta en ambos grupos (32% vs. 25%), población grave.','Análisis del subgrupo purulento.'],
+   acceso:'Texto completo libre',libre:true,doi:'10.1001/jamasurg.2020.5618',
+   cite:'Azhar N, et al. Laparoscopic lavage vs primary resection for acute perforated diverticulitis: long-term outcomes from the SCANDIV randomized clinical trial. JAMA Surg. 2021;156:121-127.'},
+
+  {id:'dilala',block:'b3',name:'DILALA',journal:'Ann Surg 2016',authors:'Angenete E, Thornell A, Burcharth J, et al.',year:2016,n:83,tipo:'ECA multicéntrico',fuerza:'Condicional',certeza:'Moderada',rec:9,related:['lola','scandiv'],
+   summary:'Ensayo escandinavo que halló el lavado laparoscópico factible y seguro a corto plazo, sin diferencia en reoperaciones a 30 días frente a la resección.',
+   simple:'Otro estudio de lavado por laparoscopía en la peritonitis purulenta. A 30 días, las reoperaciones fueron parecidas a las de la resección; el lavado resultó factible y seguro en el corto plazo.',
+   take:'A 30 días, el lavado es factible y no aumenta las reoperaciones.',
+   question:'¿Es seguro el lavado laparoscópico a corto plazo frente a la resección?',
+   armExp:'Lavado laparoscópico',armCtrl:'Resección (Hartmann)',
+   poblacion:'Pacientes con peritonitis purulenta (Hinchey III) confirmada por laparoscopía, en centros de Suecia y Dinamarca.',
+   endpoints:'Primario: reoperaciones a 30 días. Secundarios: morbilidad, mortalidad, estadía.',
+   consort:{randomized:83,expN:null,ctrlN:null,followup:'30 días'},
+   primary:{label:'Reoperaciones a 30 días',exp:'sin diferencia',ctrl:'sin diferencia',diff:'NS',narrative:'Las reoperaciones a 30 días no difirieron entre lavado y resección. El lavado se mostró factible y seguro en el corto plazo, resultado que contrastó con el seguimiento largo de SCANDIV.'},
+   secondary:[],
+   impl:'Aportó el dato de seguridad a corto plazo; el peso de la evidencia de largo plazo terminó inclinando la recomendación a condicional.',
+   caveats:['Tamaño moderado.','Desenlace a 30 días, sin capturar la recurrencia tardía.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1097/SLA.0000000000001061',
+   cite:'Angenete E, et al. Laparoscopic lavage is feasible and safe for the treatment of perforated diverticulitis with purulent peritonitis: the first results from the randomized controlled trial DILALA. Ann Surg. 2016;263:117-122.'},
+
+  // ===== B4 ELECTIVA =====
+  {id:'direct',block:'b4',name:'DIRECT',journal:'Ann Surg 2019',authors:'Bolkenstein HE, Consten ECJ, van der Palen J, et al.',year:2019,n:109,tipo:'ECA multicéntrico (5 años)',fuerza:'Condicional',certeza:'Moderada',rec:11,related:['laser','laser-4a'],
+   summary:'Ensayo holandés en pacientes con síntomas recurrentes o persistentes: la sigmoidectomía electiva dio mejor calidad de vida que el manejo conservador, con ventaja sostenida a 5 años.',
+   simple:'En pacientes que seguían con molestias o recaídas frecuentes, operar de forma programada mejoró la calidad de vida más que seguir con tratamiento conservador, y esa ventaja se mantuvo a los 5 años.',
+   take:'En el sintomático, la cirugía electiva mejora la calidad de vida de forma sostenida.',
+   question:'¿La cirugía electiva mejora la calidad de vida frente al manejo conservador en el sintomático?',
+   armExp:'Sigmoidectomía electiva',armCtrl:'Manejo conservador',
+   poblacion:'109 pacientes con diverticulitis recurrente (>2 episodios en 2 años) o molestias persistentes (>3 meses).',
+   endpoints:'Primario: calidad de vida (GIQLI) a 5 años. Secundarios: SF-36, dolor (VAS), EQ-5D, morbilidad.',
+   consort:{randomized:109,expN:53,ctrlN:56,followup:'5 años'},
+   primary:{label:'GIQLI a 5 años',exp:'118,2',ctrl:'108,5',diff:'Diferencia media 9,7 (IC 1,7–17,7)',narrative:'La calidad de vida a 5 años fue significativamente mayor en el grupo operado, consistente con el resultado a 6 meses. El 46% del grupo conservador terminó requiriendo cirugía. Entre los operados, 11% tuvo filtración anastomótica.'},
+   secondary:[
+     {label:'Cruce a cirugía (grupo conservador)',exp:'—',ctrl:'46%',diff:'',note:'Casi la mitad del grupo conservador acabó operándose por molestias persistentes.'},
+     {label:'Filtración anastomótica (operados)',exp:'11%',ctrl:'—',diff:'',note:'Reintervención requerida en 15% de los operados.'}
+   ],
+   impl:'Da soporte a ofrecer cirugía cuando la calidad de vida está deteriorada, no para "prevenir un estoma futuro".',
+   caveats:['Alto cruce del grupo conservador a cirugía.','Diseño abierto; desenlace subjetivo (calidad de vida).'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1097/SLA.0000000000003033',
+   cite:'Bolkenstein HE, et al. Long-term outcome of surgery versus conservative management for recurrent and ongoing complaints after diverticulitis: 5-year follow-up of the DIRECT trial. Ann Surg. 2019;269:612-620.'},
+
+  {id:'laser',block:'b4',name:'LASER',journal:'JAMA Surg 2021',authors:'Santos A, Mentula P, Pinta T, et al.',year:2021,n:90,tipo:'ECA multicéntrico',fuerza:'Condicional',certeza:'Moderada',rec:11,related:['direct','laser-4a'],
+   summary:'Ensayo finlandés que confirmó a los 6 meses la ventaja en calidad de vida de la sigmoidectomía electiva, a costa de un 10% de complicaciones mayores.',
+   simple:'En diverticulitis recurrente o con dolor persistente, operar mejoró la calidad de vida a los 6 meses comparado con el tratamiento conservador. El precio fue un 10% de complicaciones mayores.',
+   take:'La cirugía electiva mejora la calidad de vida a 6 meses, con 10% de complicaciones mayores.',
+   question:'¿La sigmoidectomía electiva mejora la calidad de vida frente al manejo conservador?',
+   armExp:'Sigmoidectomía laparoscópica electiva',armCtrl:'Manejo conservador',
+   poblacion:'90 pacientes con diverticulitis recurrente, complicada o con dolor persistente, en 6 hospitales de Finlandia.',
+   endpoints:'Primario: cambio en GIQLI entre la aleatorización y los 6 meses. Secundarios: complicaciones mayores, recurrencia.',
+   consort:{randomized:90,expN:45,ctrlN:45,followup:'6 meses'},
+   primary:{label:'Cambio en GIQLI a 6 meses',exp:'+11,8',ctrl:'-0,2',diff:'Diferencia 11,96 (IC 3,72–20,19) · p=0,005',narrative:'La calidad de vida mejoró significativamente más con cirugía. Cuatro pacientes (10%) del grupo quirúrgico tuvieron complicaciones mayores (Clavien-Dindo ≥III) y ninguno del grupo conservador. La recurrencia a 6 meses fue 5% vs. 31%.'},
+   secondary:[
+     {label:'Complicaciones mayores',exp:'10%',ctrl:'0%',diff:'',note:'Cuatro complicaciones Clavien-Dindo ≥III en el grupo operado.'},
+     {label:'Nuevo episodio a 6 meses',exp:'5%',ctrl:'31%',diff:'',note:'Menos recurrencia con cirugía.'}
+   ],
+   impl:'Confirma a DIRECT y aporta la magnitud del beneficio y su costo en complicaciones, insumo para la decisión compartida.',
+   caveats:['Tamaño pequeño (90).','Diseño abierto; desenlace subjetivo.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1001/jamasurg.2020.5151',
+   cite:'Santos A, et al. Comparing laparoscopic elective sigmoid resection with conservative treatment in improving quality of life of patients with diverticulitis (LASER). JAMA Surg. 2021;156:129-136.'},
+
+  {id:'laser-4a',block:'b4',name:'LASER · análisis a 4 años',journal:'JAMA Surg 2025',authors:'Santos A, Mentula P, Pinta T, et al.',year:2025,n:90,tipo:'Análisis prespecificado a 4 años',fuerza:'Condicional',certeza:'Moderada',rec:11,related:['laser','direct'],
+   summary:'A 4 años, la ventaja de la cirugía en calidad de vida dejó de ser significativa, aunque siguió previniendo la recurrencia; el alto cruce del grupo conservador matiza la lectura.',
+   simple:'Cuatro años después, la mejora de calidad de vida de la cirugía ya no era claramente superior al tratamiento conservador. Pero operar seguía evitando las recaídas, y muchos del grupo conservador (con peor calidad de vida) terminaron operándose igual.',
+   take:'A 4 años la ventaja en calidad de vida se diluye, pero la cirugía sigue previniendo recurrencias.',
+   question:'¿Se mantiene a 4 años la ventaja de la cirugía electiva?',
+   armExp:'Sigmoidectomía electiva',armCtrl:'Manejo conservador',
+   poblacion:'90 pacientes de LASER, análisis prespecificado a 4 años (intención de tratar).',
+   endpoints:'GIQLI, complicaciones y recurrencia a 4 años.',
+   consort:{randomized:90,expN:45,ctrlN:45,followup:'4 años'},
+   primary:{label:'GIQLI a 4 años',exp:'115,3',ctrl:'109,8',diff:'Diferencia 5,54 (IC -2,98 a 14,06)',narrative:'La diferencia en calidad de vida ya no fue significativa a 4 años. La recurrencia fue 10% tras cirugía vs. 92% en el grupo conservador. El 32% del grupo conservador (los de peor calidad de vida) terminó operándose. Complicaciones severas 10% vs. 11%.'},
+   secondary:[
+     {label:'Recurrencia a 4 años',exp:'10%',ctrl:'92%',diff:'',note:'La cirugía siguió siendo muy eficaz en prevenir recurrencias.'},
+     {label:'Cruce a cirugía (conservador)',exp:'—',ctrl:'32%',diff:'',note:'El cruce, en pacientes con peor calidad de vida, atenúa la diferencia observada.'}
+   ],
+   impl:'Sostiene la conducta individualizada: cirugía de entrada si la calidad de vida ya está deteriorada; manejo conservador razonable si es cercana a lo normal.',
+   caveats:['Alto cruce del grupo conservador a cirugía.','Análisis de desenlaces secundarios; potencia limitada.'],
+   acceso:'Resumen en PubMed',libre:false,doi:'10.1001/jamasurg.2025.0572',
+   cite:'Santos A, et al. Sigmoid resection vs conservative treatment after diverticulitis: prespecified 4-year analysis of the LASER randomized clinical trial. JAMA Surg. 2025;160:615-622.'}
+];
+
+const REC = [
+  {n:1,dom:'n',titulo:'Evaluación inicial',dice:'Historia dirigida, examen físico y laboratorio apropiado en todo paciente con sospecha.',implica:'Define la gravedad y la candidatura a manejo ambulatorio. Los biomarcadores (PCR, procalcitonina) no reemplazan al juicio clínico ni a la TC.',f:'Fuerte',c:'Baja',mov:'—'},
+  {n:2,dom:'n',titulo:'Imagen: TC con contraste',dice:'La TC de abdomen y pelvis con contraste endovenoso es la modalidad inicial de elección.',implica:'El grado en la TC anticipa la falla del manejo conservador. La ecografía y la RM salieron como alternativa formal.',f:'Fuerte',c:'Moderada',mov:'Eco/RM excluidas'},
+  {n:3,dom:'b1',titulo:'No complicada sin antibióticos',dice:'El inmunocompetente ambulatorio de bajo riesgo puede tratarse, de forma inicial y selectiva, sin antibióticos.',implica:'Base: analgesia no narcótica e hidratación. Reservar antibióticos para el alto riesgo (>5 días, vómitos, PCR>140, leucocitos>15 mil, colección) y para el inmunosuprimido.',f:'Fuerte',c:'Alta',mov:'1A → más acotada'},
+  {n:4,dom:'b5',titulo:'Factores de riesgo y estilo de vida',dice:'Dieta saludable, cese del tabaco, menos carne roja, más fibra, actividad física y evitar la obesidad reducen el riesgo.',implica:'Consejo poblacional válido para reducir la incidencia; su efecto como tratamiento de la enfermedad es incierto.',f:'Condicional',c:'Moderada',mov:'—'},
+  {n:5,dom:'b5',titulo:'Prevención farmacológica',dice:'Mesalazina, rifaximina y probióticos no de rutina. La fibra con rifaximina cíclica puede aliviar síntomas.',implica:'No corresponde prescribir mesalazina ni probióticos de rutina para prevenir la recurrencia.',f:'Condicional',c:'Baja',mov:'Fibra+rifaximina: excepción'},
+  {n:6,dom:'b2',titulo:'Absceso diverticular',dice:'Antibióticos siempre; drenaje percutáneo si supera 4 cm o ante deterioro clínico.',implica:'El umbral de drenaje sube de 3 a 4 cm. El absceso pélvico baja el umbral para drenar o plantear cirugía electiva.',f:'Fuerte',c:'Moderada',mov:'Nueva · umbral a 4 cm'},
+  {n:7,dom:'b3',titulo:'Colectomía de urgencia',dice:'Indicada en la peritonitis difusa o ante la falla del manejo no operatorio.',implica:'Reconocer temprano a quien no controla el foco y estratificar el riesgo (edad>80, ASA 4-5, creatinina>1,2, albúmina<2,5).',f:'Fuerte',c:'Baja',mov:'—'},
+  {n:8,dom:'b3',titulo:'Restauración de la continuidad',dice:'Anastomosis primaria protegida con ostomía de derivación, en lugar de la operación de Hartmann, bajo condiciones apropiadas.',implica:'Hartmann queda para el escenario subóptimo. La evidencia respalda la anastomosis protegida, no la anastomosis sola.',f:'Condicional',c:'Moderada',mov:'1B → énfasis en derivación'},
+  {n:9,dom:'b3',titulo:'Lavado laparoscópico',dice:'No de rutina. Se prefiere la colectomía ante perforación macroscópica o peritonitis fecaloidea.',implica:'El lavado no corresponde en la peritonitis fecaloidea; su balance recurrencia/estoma exige decisión compartida.',f:'Condicional',c:'Moderada',mov:'1A → degradada'},
+  {n:10,dom:'n',titulo:'Colonoscopía tras el episodio',dice:'Tras la resolución, si el paciente no está al día con el tamizaje o si los hallazgos radiológicos preocupan por malignidad.',implica:'No rutinaria tras una no complicada; sí tras una complicada (cáncer 6-11%). El FIT no reemplaza a la colonoscopía cuando está indicada.',f:'Fuerte',c:'Moderada',mov:'1C → sube certeza'},
+  {n:11,dom:'b4',titulo:'Electiva tras no complicada',dice:'Individualizar según riesgo operatorio, ganancia en calidad de vida, frecuencia de episodios y limitaciones.',implica:'La cirugía tiene sentido cuando la calidad de vida ya está deteriorada; no se ofrece para prevenir un estoma futuro.',f:'Condicional',c:'Moderada',mov:'Por calidad de vida'},
+  {n:12,dom:'b4',titulo:'Electiva tras absceso',dice:'Considerar tras el manejo no operatorio exitoso de un absceso, con estratificación individualizada.',implica:'Seguimiento estrecho; no colectomía universal. El absceso pélvico inclina hacia la cirugía.',f:'Condicional',c:'Moderada',mov:'1B → más individualizada'},
+  {n:13,dom:'b4',titulo:'Fístula y estenosis',dice:'Colectomía electiva en la diverticulitis complicada por fístula o estenosis sintomática.',implica:'Indicación clara pese a la certeza baja; se individualiza según síntomas y riesgo operatorio.',f:'Fuerte',c:'Baja',mov:'—'},
+  {n:14,dom:'b4',titulo:'Edad joven al inicio',dice:'No ofrecer colectomía electiva solo por la edad joven al momento del debut.',implica:'Los jóvenes no tienen un curso más grave; la mayor recurrencia cruda refleja más tiempo de vida en riesgo.',f:'Fuerte',c:'Moderada',mov:'1C → sube certeza'},
+  {n:15,dom:'b4',titulo:'Paciente inmunosuprimido',dice:'Individualizar la decisión tras el manejo no operatorio exitoso; sin umbral bajo universal para operar.',implica:'La mayor morbilidad quirúrgica del inmunosuprimido debe pesar en la decisión compartida.',f:'Condicional',c:'Moderada',mov:'1C → sin umbral bajo'},
+  {n:16,dom:'n',titulo:'Extensión de la resección',dice:'Resecar todo el segmento de colon enfermo, con anastomosis al recto proximal.',implica:'El margen distal va en el recto, no en un plano colocolónico (recurrencia 12-23% vs. ~5%).',f:'Fuerte',c:'Alta',mov:'1C → salto mayor de certeza'},
+  {n:17,dom:'n',titulo:'Abordaje mínimamente invasivo',dice:'Preferido cuando es factible y seguro, incluida la cirugía de urgencia.',implica:'La elección concreta depende de la familiaridad del cirujano, el equipamiento y las características del paciente.',f:'Fuerte',c:'Moderada',mov:'1A → baja certeza'}
+];
+
+const GLOSSARY = [
+  {t:'GRADE',d:'Sistema que separa la fuerza de la recomendación (fuerte o condicional) de la certeza de la evidencia (alta, moderada, baja o muy baja).'},
+  {t:'Fuerza fuerte',d:'La mayoría de los pacientes debería recibir la intervención; poco margen para la decisión individual.'},
+  {t:'Fuerza condicional',d:'La conducta correcta varía según el paciente y sus preferencias; corresponde decisión compartida.'},
+  {t:'Clasificación de Hinchey',d:'Grado de la diverticulitis perforada: I absceso pericólico, II absceso pélvico, III peritonitis purulenta, IV peritonitis fecaloidea.'},
+  {t:'GIQLI',d:'Gastrointestinal Quality of Life Index: cuestionario de calidad de vida digestiva usado en DIRECT y LASER.'},
+  {t:'Operación de Hartmann',d:'Resección del sigmoides con colostomía terminal y cierre del recto, sin anastomosis; requiere una segunda cirugía para reconstruir.'},
+  {t:'Anastomosis primaria protegida',d:'Unión del colon al recto en el mismo acto, protegida con una ostomía de derivación (habitualmente ileostomía de asa).'},
+  {t:'Lavado laparoscópico',d:'Aseo y drenaje de la cavidad por laparoscopía sin resecar el colon, en la peritonitis purulenta (no en la fecaloidea).'},
+  {t:'No inferioridad',d:'Diseño que busca demostrar que una intervención no es peor que otra más allá de un margen preespecificado, no que sea mejor.'},
+  {t:'Clavien-Dindo',d:'Clasificación de la gravedad de las complicaciones quirúrgicas; grado ≥III implica reintervención o soporte orgánico.'},
+  {t:'RR / OR / HR',d:'Medidas de asociación: riesgo relativo, odds ratio y hazard ratio. Por encima de 1, más riesgo; por debajo, protector; en 1, sin diferencia.'},
+  {t:'NNT',d:'Número necesario a tratar: cuántos pacientes hay que tratar para evitar un evento.'}
+];
+
+const COLOR={b1:'--b1',b2:'--b2',b3:'--b3',b4:'--b4',b5:'--b5'};
+const CERT_BARS={'Alta':4,'Moderada':3,'Baja':2,'Muy baja':1};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function certColor(c){return c==='Alta'?'var(--b3)':c==='Moderada'?'var(--b2)':'var(--ink-mute)'}
+
+/* ---------- KPIs & legend ---------- */
+function buildKpis(){
+  const eca=DATA.filter(d=>/ECA/i.test(d.tipo)).length;
+  const libres=DATA.filter(d=>d.libre).length;
+  const kpis=[
+    {n:DATA.length,l:'Ensayos y revisiones'},
+    {n:eca,l:'Ensayos aleatorizados'},
+    {n:BLOCKS.length,l:'Dominios clínicos'},
+    {n:libres,l:'Con texto completo libre'}
+  ];
+  document.getElementById('kpis').innerHTML=kpis.map(k=>`<div class="kpi"><div class="kpi-num serif">${k.n}</div><div class="kpi-label">${k.l}</div></div>`).join('');
+  document.getElementById('legend').innerHTML=BLOCKS.map(b=>`<span class="color-chip"><span class="color-chip-dot" style="background:var(${COLOR[b.id]})"></span>${esc(b.key)}</span>`).join('');
+}
+
+/* ---------- Sidebar nav ---------- */
+function buildNav(){
+  let h='';
+  BLOCKS.forEach(b=>{
+    h+=`<a class="nav-link ${b.id}" onclick="goTo('#${b.id}')">${esc(b.title)}</a>`;
+  });
+  document.getElementById('nav-blocks').innerHTML=h;
+}
+
+/* ---------- Timeline ---------- */
+function tlLabel(d){
+  if(d.id==='cochrane-atb')return 'Cochrane ATB';
+  if(d.id==='cochrane-mes')return 'Cochrane 5-ASA';
+  return d.name.split(' · ')[0].replace(/\s*\(.*\)/,'').trim();
+}
+function buildTimeline(){
+  const items=DATA.filter(d=>d.year);
+  const years=[...new Set(items.map(d=>d.year))].sort((a,b)=>a-b);
+  let h='';
+  years.forEach(y=>{
+    const inYear=items.filter(d=>d.year===y);
+    const chips=inYear.map(d=>`<a class="tl-item ${d.block}" onclick="goTo('#card-${d.id}')" title="${esc(d.name)}">${esc(tlLabel(d))}</a>`).join('');
+    h+=`<div class="tl-col"><div class="tl-dot"></div><div class="tl-year">${y}</div><div class="tl-items">${chips}</div></div>`;
+  });
+  document.getElementById('timeline').innerHTML=h;
+}
+
+/* ---------- Trial card ---------- */
+function evBars(cert){
+  const n=CERT_BARS[cert]||0;let h='<span class="evidence-bars">';
+  for(let i=0;i<4;i++)h+=`<span class="evidence-bar ${i<n?'filled':''}"></span>`;
+  return h+'</span>';
+}
+function consortHTML(c,exp,ctrl){
+  if(!c) return '';
+  let nodes=`<div class="consort-node"><div class="cn-num">${c.randomized??'—'}</div><div class="cn-lbl">Aleatorizados</div></div>`;
+  if(c.expN) nodes+=`<div class="consort-node"><div class="cn-num">${c.expN}</div><div class="cn-lbl">${esc(exp)}</div></div>`;
+  if(c.ctrlN) nodes+=`<div class="consort-node"><div class="cn-num">${c.ctrlN}</div><div class="cn-lbl">${esc(ctrl)}</div></div>`;
+  nodes+=`<div class="consort-node"><div class="cn-num" style="font-size:15px;padding-top:4px">${esc(c.followup)}</div><div class="cn-lbl">Seguimiento</div></div>`;
+  return `<div class="consort">${nodes}</div>`;
+}
+function pctWidth(v){const m=String(v).match(/-?\d+\.?\d*/);let x=m?Math.abs(parseFloat(m[0])):0;if(x<=1)x*=100;return Math.max(8,Math.min(100,x))}
+function resultsBars(pr){
+  return `<div class="pr-bars">
+    <div class="pr-side">Intervención</div><div class="pr-track"><div class="pr-fill exp" style="width:${pctWidth(pr.exp)}%">${esc(pr.exp)}</div></div>
+    <div class="pr-side">Control</div><div class="pr-track"><div class="pr-fill ctrl" style="width:${pctWidth(pr.ctrl)}%">${esc(pr.ctrl)}</div></div>
+  </div>`;
+}
+function renderCard(d){
+  const fBadge = d.fuerza==='Fuerte'?`<span class="badge fuerte">Fuerte</span>`:`<span class="badge cond">Condicional</span>`;
+  const cBadge = d.certeza?`<span class="badge cert" style="background:${certColor(d.certeza)}">Certeza ${esc(d.certeza).toLowerCase()} ${evBars(d.certeza)}</span>`:'';
+  const recBadge = d.rec?`<span class="badge" style="color:var(--ink-mute)">Rec. ${d.rec}</span>`:'';
+  const sec = (d.secondary||[]).map(s=>`<div class="result-row">
+      <div class="result-row-label">${esc(s.label)}</div>
+      <div class="result-row-vals"><span class="rv exp">${esc(s.exp)}</span><span class="rv ctrl">${esc(s.ctrl)}</span>${s.diff?`<span class="rv-diff">${esc(s.diff)}</span>`:''}</div>
+      ${s.note?`<div class="result-row-note">${esc(s.note)}</div>`:''}
+    </div>`).join('') || '<p class="result-row-note" style="margin:0">Sin desenlaces secundarios registrados en la fuente.</p>';
+  const cav = (d.caveats||[]).map(c=>`<li>${esc(c)}</li>`).join('');
+  const rel = (d.related||[]).map(r=>{const t=DATA.find(x=>x.id===r);return t?`<a onclick="goTo('#card-${t.id}')" style="cursor:pointer;color:var(--b3);font-weight:600">${esc(t.name.split(' · ')[0])}</a>`:''}).filter(Boolean).join(' · ');
+  const accDot = d.libre?'var(--b3)':'var(--ink-mute)';
+  const accTxt = d.libre?'Texto completo libre':'Resumen en PubMed · in extenso con acceso institucional';
+  return `<article class="trial-card ${d.block}" id="card-${d.id}" data-name="${esc((d.name+' '+d.summary+' '+d.primary.label+' '+d.journal).toLowerCase())}">
+    <div class="trial-accent"></div>
+    <div class="trial-header">
+      <div>
+        <div class="trial-meta-top"><span>${esc(d.journal)}</span>${d.n?`<span>·</span><span>n=${d.n.toLocaleString('es-CL')}</span>`:''}<span>·</span><span>${esc(d.tipo)}</span></div>
+        <div class="trial-name serif">${esc(d.name)}</div>
+        <div class="trial-authors">${esc(d.authors)}</div>
+      </div>
+      <div class="trial-badges">${fBadge}${cBadge}${recBadge}</div>
+    </div>
+    <div class="trial-tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'${d.id}','res')">Resumen</button>
+      <button class="tab-btn" onclick="switchTab(this,'${d.id}','dis')">Diseño</button>
+      <button class="tab-btn" onclick="switchTab(this,'${d.id}','rst')">Resultados</button>
+    </div>
+    <div class="tab-panel active" id="tp-${d.id}-res">
+      <div class="summary-card"><div class="summary-card-content">${esc(d.summary)}</div>
+        <div class="summary-takeaway">${esc(d.take)}</div></div>
+      <div class="easy-card"><div class="easy-eyebrow">En palabras simples</div><div class="easy-content">${esc(d.simple)}</div></div>
+    </div>
+    <div class="tab-panel" id="tp-${d.id}-dis">
+      <div class="kv-list" style="margin-bottom:16px"><div class="kv-item"><span class="k">Pregunta</span><span class="v">${esc(d.question)}</span></div></div>
+      <div class="iv-banner">
+        <div class="iv-side exp"><span class="iv-tag">Intervención</span><div class="iv-text">${esc(d.armExp)}</div></div>
+        <div class="iv-side ctrl"><span class="iv-tag">Control</span><div class="iv-text">${esc(d.armCtrl)}</div></div>
+      </div>
+      <div class="kv-list">
+        <div class="kv-item"><span class="k">Población</span><span class="v">${esc(d.poblacion)}</span></div>
+        <div class="kv-item"><span class="k">Endpoints</span><span class="v">${esc(d.endpoints)}</span></div>
+      </div>
+      <div class="sub-h">Flujo del estudio</div>
+      ${consortHTML(d.consort,'Intervención','Control')}
+    </div>
+    <div class="tab-panel" id="tp-${d.id}-rst">
+      <div class="primary-result">
+        <div class="pr-eyebrow">Resultado primario</div>
+        <div class="pr-label">${esc(d.primary.label)}</div>
+        ${resultsBars(d.primary)}
+        <div class="pr-diff">${esc(d.primary.diff)}</div>
+        ${d.primary.narrative?`<div class="pr-narrative">${esc(d.primary.narrative)}</div>`:''}
+      </div>
+      <div class="sub-h">Desenlaces secundarios</div>
+      ${sec}
+      ${cav?`<div class="sub-h">Limitaciones</div><div class="caveats"><ul>${cav}</ul></div>`:''}
+      <div class="refs">
+        <div class="access-line"><span class="dot" style="background:${accDot}"></span>${accTxt}</div><br>
+        ${esc(d.cite)} ${d.doi?`<a href="https://doi.org/${esc(d.doi)}" target="_blank" rel="noopener">Ver artículo ↗</a>`:''}
+        ${rel?`<div style="margin-top:8px">Relacionados: ${rel}</div>`:''}
+      </div>
+    </div>
+  </article>`;
+}
+
+function buildBlocks(){
+  let h='';
+  BLOCKS.forEach(b=>{
+    const cards=DATA.filter(d=>d.block===b.id);
+    h+=`<section class="block ${b.id}" id="${b.id}">
+      <div class="block-header">
+        <div class="block-num serif">${b.num}</div>
+        <div class="block-title-wrap">
+          <div class="block-eyebrow">${esc(b.eyebrow)}</div>
+          <h2 class="block-title">${esc(b.title)}</h2>
+        </div>
+      </div>
+      <p class="block-intro">${esc(b.intro)}</p>
+      <div class="trial-grid">${cards.map(renderCard).join('')}</div>
+    </section>`;
+  });
+  document.getElementById('blocks').innerHTML=h;
+}
+
+function switchTab(btn,id,tab){
+  const card=document.getElementById('card-'+id);
+  card.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  card.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tp-'+id+'-'+tab).classList.add('active');
+}
+
+/* ---------- Search ---------- */
+function runSearch(q){
+  q=q.trim().toLowerCase();
+  DATA.forEach(d=>{
+    const el=document.getElementById('card-'+d.id);
+    if(!el)return;
+    el.classList.toggle('hidden', q && !el.dataset.name.includes(q));
+  });
+  BLOCKS.forEach(b=>{
+    const sec=document.getElementById(b.id);
+    if(!sec)return;
+    const any=[...sec.querySelectorAll('.trial-card')].some(c=>!c.classList.contains('hidden'));
+    sec.style.display=any?'':'none';
+  });
+}
+
+/* ---------- Comparador ---------- */
+const cmpSel=new Set();
+function buildComparador(){
+  document.getElementById('cmp-picker').innerHTML=DATA.map(d=>`<button class="cmp-pill" type="button" aria-pressed="false" onclick="toggleCmp('${d.id}',this)">${esc(d.name.split(' · ')[0])}</button>`).join('');
+  renderCmp();
+}
+function toggleCmp(id,btn){
+  if(cmpSel.has(id))cmpSel.delete(id);else cmpSel.add(id);
+  btn.setAttribute('aria-pressed',cmpSel.has(id)?'true':'false');
+  renderCmp();
+}
+function renderCmp(){
+  const box=document.getElementById('cmp-table');
+  if(cmpSel.size===0){box.innerHTML='<p class="tool-desc" style="margin:0">Selecciona ensayos arriba para compararlos.</p>';return;}
+  const sel=DATA.filter(d=>cmpSel.has(d.id));
+  const rows=[
+    ['Revista / año',d=>d.journal],
+    ['n',d=>d.n?d.n.toLocaleString('es-CL'):'—'],
+    ['Comparación',d=>esc(d.armExp)+' vs. '+esc(d.armCtrl)],
+    ['Resultado primario',d=>esc(d.primary.label)],
+    ['Intervención',d=>esc(d.primary.exp)],
+    ['Control',d=>esc(d.primary.ctrl)],
+    ['Diferencia',d=>esc(d.primary.diff)],
+    ['Fuerza',d=>`<span class="chip ${d.fuerza==='Fuerte'?'f':'c'}">${d.fuerza}</span>`],
+    ['Certeza',d=>d.certeza||'—'],
+    ['Seguimiento',d=>d.consort?esc(d.consort.followup):'—']
+  ];
+  let h='<table class="data-table"><thead><tr><th></th>'+sel.map(d=>`<th>${esc(d.name.split(' · ')[0])}</th>`).join('')+'</tr></thead><tbody>';
+  rows.forEach(r=>{h+='<tr><td style="font-weight:600;color:var(--ink-mute)">'+r[0]+'</td>'+sel.map(d=>'<td>'+r[1](d)+'</td>').join('')+'</tr>';});
+  h+='</tbody></table>';
+  box.innerHTML=h;
+}
+
+/* ---------- Recomendaciones ---------- */
+function recColor(dom){return dom==='n'?'var(--ink-mute)':'var(--'+dom+')'}
+function buildRecs(){
+  const h=REC.map(r=>{
+    const trials=DATA.filter(d=>d.rec===r.n);
+    const tl=trials.map(d=>`<a onclick="goTo('#card-${d.id}')">${esc(tlLabel(d))}</a>`).join(', ');
+    const fBadge=r.f==='Fuerte'?`<span class="badge fuerte">Fuerte</span>`:`<span class="badge cond">Condicional</span>`;
+    const cBadge=`<span class="badge cert" style="background:${certColor(r.c)}">Certeza ${r.c.toLowerCase()}</span>`;
+    return `<div class="rec-card" style="--rc:${recColor(r.dom)}">
+      <div class="rec-top"><div class="rec-num serif">${r.n}</div><div class="rec-grade">${fBadge}${cBadge}</div></div>
+      <div class="rec-dice">${esc(r.titulo)}</div>
+      <div class="rec-implica"><b>Qué dice:</b> ${esc(r.dice)}</div>
+      <div class="rec-implica"><b>En la práctica:</b> ${esc(r.implica)}</div>
+      <div class="rec-foot">
+        ${(r.mov&&r.mov!=='—')?`<div class="rec-mov"><span class="tag">2020 → 2026</span> ${esc(r.mov)}</div>`:''}
+        ${tl?`<div class="rec-trials">Ensayos que la sostienen: ${tl}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('recs-grid').innerHTML=h;
+}
+
+/* ---------- Glosario ---------- */
+function buildGlossary(){
+  document.getElementById('glossary').innerHTML=GLOSSARY.map(g=>`<div class="gloss-item"><div class="gloss-term serif">${esc(g.t)}</div><div class="gloss-def">${esc(g.d)}</div></div>`).join('');
+}
+
+/* ---------- Presentación ---------- */
+let presIdx=0;
+const presList=()=>DATA.slice();
+function startPresentation(){presIdx=0;document.getElementById('present').classList.add('on');renderPresent();}
+function stopPresentation(){document.getElementById('present').classList.remove('on');}
+function presentStep(n){const L=presList();presIdx=(presIdx+n+L.length)%L.length;renderPresent();}
+function renderPresent(){
+  const L=presList();const d=L[presIdx];
+  document.getElementById('present-stage').innerHTML=`
+    <div class="present-eyebrow">${esc(d.journal)} · n=${d.n?d.n.toLocaleString('es-CL'):'—'}</div>
+    <div class="present-title serif" style="color:var(${COLOR[d.block]})">${esc(d.name)}</div>
+    <div class="present-q">${esc(d.question)}</div>
+    <div style="margin-bottom:24px;font-size:15px;color:var(--ink-soft);max-width:40em">
+      <strong>${esc(d.primary.label)}:</strong> ${esc(d.primary.exp)} vs. ${esc(d.primary.ctrl)} — ${esc(d.primary.diff)}
+    </div>
+    <div class="present-take serif">${esc(d.take)}</div>`;
+  document.getElementById('present-count').textContent=`${presIdx+1} / ${L.length}`;
+}
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('present').classList.contains('on'))return;
+  if(e.key==='ArrowRight')presentStep(1);
+  else if(e.key==='ArrowLeft')presentStep(-1);
+  else if(e.key==='Escape')stopPresentation();
+});
+
+/* ---------- misc ---------- */
+function goTo(sel){const el=document.querySelector(sel);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
+document.getElementById('q').addEventListener('input',e=>runSearch(e.target.value));
+document.getElementById('presentBtn').addEventListener('click',startPresentation);
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const r=document.documentElement;
+  const cur=r.getAttribute('data-theme');
+  const dark=cur?cur==='dark':window.matchMedia('(prefers-color-scheme:dark)').matches;
+  r.setAttribute('data-theme',dark?'light':'dark');
+});
+
+function buildMobnav(){
+  let h=`<a onclick="goTo('#recs')">§ 17 recomendaciones</a>`;
+  BLOCKS.forEach(b=>{h+=`<a onclick="goTo('#${b.id}')">${esc(b.key)}</a>`;});
+  h+=`<a onclick="goTo('#comparador')">⇌ Comparador</a><a onclick="goTo('#glosario')">📖 Glosario</a><a onclick="startPresentation()">▶ Presentación</a>`;
+  document.getElementById('mobnav').innerHTML=h;
+}
+buildKpis();buildNav();buildMobnav();buildTimeline();buildRecs();buildBlocks();buildComparador();buildGlossary();
+</script>
+
+<script>
+if ('serviceWorker' in navigator && location.protocol.indexOf('http')===0) {
+  window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+}
+</script>
+
+</body>
+</html>
