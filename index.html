@@ -67,6 +67,8 @@ a{color:inherit}
 .search-input{width:100%;padding:9px 14px 9px 36px;border:1px solid var(--line);background:var(--bg-elev);border-radius:var(--radius-md);color:var(--ink);font-family:inherit;font-size:14px}
 .search-input:focus{outline:none;border-color:var(--b3);box-shadow:0 0 0 3px color-mix(in srgb,var(--b3) 18%,transparent)}
 .search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--ink-mute);pointer-events:none}
+.search-count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-mute);cursor:pointer;white-space:nowrap;flex:none}
+.search-count:hover{color:var(--b3)} .search-count.none{color:var(--neg);cursor:default}
 .topbar-actions{display:flex;gap:6px;margin-left:auto}
 .icon-btn{background:var(--bg-elev);border:1px solid var(--line);border-radius:var(--radius-md);height:36px;min-width:36px;padding:0 10px;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;color:var(--ink-soft);font-family:inherit;font-size:12.5px;font-weight:500}
 .icon-btn:hover{border-color:var(--b3);color:var(--b3)}
@@ -332,6 +334,7 @@ footer.credits p{margin:6px 0 0;max-width:78ch;line-height:1.55}
     <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
     <input class="search-input" id="q" type="search" placeholder="Buscar ensayo, comparación, resultado…" autocomplete="off" aria-label="Buscar">
   </div>
+  <span id="searchcount" class="search-count" style="display:none" onclick="searchJump()" title="Ir al primer resultado"></span>
   <div class="topbar-actions">
     <button class="icon-btn" id="presentBtn" type="button">▶ Presentación</button>
     <button class="icon-btn" id="themeBtn" type="button" aria-label="Cambiar tema">◐ Tema</button>
@@ -421,7 +424,8 @@ footer.credits p{margin:6px 0 0;max-width:78ch;line-height:1.55}
 
     <footer class="credits">
       <div class="authors">Dr. Felipe Imigo Gueregat · Subespecialista en Cirugía Colorrectal</div>
-      <p>Base: documento docente “Manejo de la diverticulitis colónica izquierda — Guía de práctica clínica ASCRS 2026, punto por punto”. Los datos de diseño y resultados fueron verificados en PubMed ensayo por ensayo. Toda cifra proviene de fuentes reales; los campos sin dato disponible se dejan vacíos, sin contenido ilustrativo. Material docente para residentes y especialistas.</p>
+      <p>Base: la literatura primaria de cada ensayo, verificada una a una en PubMed, y las tres guías de práctica clínica 2026 (ASCRS, ACG y EAES–SAGES). El documento docente “Manejo de la diverticulitis colónica izquierda — ASCRS 2026, punto por punto” fue el esqueleto que ordenó el atlas. Toda cifra proviene de fuentes reales; los campos sin dato disponible se dejan vacíos, sin contenido ilustrativo. Material docente para residentes y especialistas.</p>
+      <p style="margin-top:10px">¿Encontraste un error o tienes una sugerencia? Escríbeme a <a href="mailto:felipeimigo@gmail.com?subject=Atlas%20enfermedad%20diverticular%20%E2%80%94%20sugerencia" style="color:var(--b3);font-weight:600">felipeimigo@gmail.com</a>.</p>
     </footer>
   </main>
 </div>
@@ -947,7 +951,7 @@ function renderCard(d){
   const rel = (d.related||[]).map(r=>{const t=DATA.find(x=>x.id===r);return t?`<a onclick="goTo('#card-${t.id}')" style="cursor:pointer;color:var(--b3);font-weight:600">${esc(t.name.split(' · ')[0])}</a>`:''}).filter(Boolean).join(' · ');
   const accDot = d.libre?'var(--b3)':'var(--ink-mute)';
   const accTxt = d.libre?'Texto completo libre':'Resumen en PubMed · in extenso con acceso institucional';
-  return `<article class="trial-card ${d.block}" id="card-${d.id}" data-name="${esc((d.name+' '+d.summary+' '+d.primary.label+' '+d.journal).toLowerCase())}">
+  return `<article class="trial-card ${d.block}" id="card-${d.id}" data-name="${esc((d.name+' '+(d.question||'')+' '+d.summary+' '+d.primary.label+' '+(d.secondary||[]).map(s=>s.label).join(' ')+' '+d.authors+' '+d.journal).toLowerCase())}">
     <div class="trial-accent"></div>
     <div class="trial-header">
       <div>
@@ -1028,12 +1032,17 @@ function switchTab(btn,id,tab){
 }
 
 /* ---------- Search ---------- */
+const HIDE_ON_SEARCH=['onboarding','recs','guias','comparador','glosario'];
 function runSearch(q){
   q=q.trim().toLowerCase();
+  const searching=!!q;
+  let n=0;
   DATA.forEach(d=>{
     const el=document.getElementById('card-'+d.id);
     if(!el)return;
-    el.classList.toggle('hidden', q && !el.dataset.name.includes(q));
+    const match=!searching || (el.dataset.name||'').includes(q);
+    el.classList.toggle('hidden', !match);
+    if(searching && match) n++;
   });
   BLOCKS.forEach(b=>{
     const sec=document.getElementById(b.id);
@@ -1041,6 +1050,18 @@ function runSearch(q){
     const any=[...sec.querySelectorAll('.trial-card')].some(c=>!c.classList.contains('hidden'));
     sec.style.display=any?'':'none';
   });
+  HIDE_ON_SEARCH.forEach(id=>{const e=document.getElementById(id);if(e)e.style.display=searching?'none':'';});
+  const ind=document.getElementById('searchcount');
+  if(ind){
+    ind.style.display=searching?'':'none';
+    ind.textContent=searching?(n?`${n} resultado${n>1?'s':''}`:'Sin resultados'):'';
+    ind.classList.toggle('none',searching&&n===0);
+  }
+  return n;
+}
+function searchJump(){
+  const first=document.querySelector('.trial-card:not(.hidden)');
+  if(first)first.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 /* ---------- Comparador ---------- */
@@ -1148,6 +1169,7 @@ document.addEventListener('keydown',e=>{
 /* ---------- misc ---------- */
 function goTo(sel){const el=document.querySelector(sel);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});}
 document.getElementById('q').addEventListener('input',e=>runSearch(e.target.value));
+document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();searchJump();}});
 document.getElementById('presentBtn').addEventListener('click',startPresentation);
 document.getElementById('themeBtn').addEventListener('click',()=>{
   const r=document.documentElement;
